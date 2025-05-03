@@ -1,0 +1,61 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Byte-compiled / optimized / DLL files
+*.so
+*.dylib
+*.dll
+
+# Virtual environment
+venv/
+.env
+.env.*
+
+# IDE config files
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Database and Alembic artifacts
+*.sqlite3
+alembic/versions/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Test coverage reports
+htmlcov/
+.coverage
+.tox/
+.cache/
+
+# Pytest
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+
+# Pylint
+.pylint.d/
+
+# FastAPI + Uvicorn
+*.pid
+
+# Jupyter notebooks (optional)
+*.ipynb_checkpoints/
+
+# Compiled translation files
+*.mo
+
+# Docker
+*.pid
+docker-compose.override.yml
