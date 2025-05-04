@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "inventory-service"
+version = "0.1.0"
+description = "Inventory Service FAST API project initialization with poetry"
+authors = ["vilgen <emin.vilgenoglu@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.12"
+uvicorn = {extras = ["standard"], version = "^0.34.2"}
+sqlalchemy = "^2.0.40"
+pydantic = "^2.11.4"
+pydantic-settings = "^2.9.1"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-dotenv = "^1.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
