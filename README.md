@@ -56,6 +56,83 @@ This command will:
 
 All dependencies will be recorded in your `pyproject.toml` and installed in Poetry's virtual environment.
 
+## Ruff Installation and Configuration
+
+### Installing Ruff
+
+First, install Ruff as a development dependency using Poetry:
+
+```sh
+poetry add ruff --group dev
+```
+
+This will add Ruff to your project's development dependencies in `pyproject.toml`.
+
+### Basic Ruff Configuration
+
+After installation, create or update your `pyproject.toml` file with the following configuration:
+
+```toml
+[tool.ruff]
+# Enable all rules by default
+select = ["E", "F", "I", "N", "W", "B", "C4", "UP", "PL", "RUF"]
+ignore = []
+# Assume Python 3.12
+target-version = "py312"
+
+# Allow autofix for all enabled rules
+fixable = ["ALL"]
+unfixable = []
+
+# Exclude a variety of commonly ignored directories
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Same as Black
+line-length = 88
+
+# Allow unused variables when underscore-prefixed
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+
+```
+
+### Using Ruff
+
+Once installed and configured, you can use Ruff with the following commands:
+
+```sh
+# Lint your code
+poetry run ruff check .
+
+# Format your code
+poetry run ruff format .
+
+# Fix automatically fixable issues
+poetry run ruff check --fix .
+```
+
 ## Makefile Commands
 
 The following commands use [Poetry](https://python-poetry.org/) to manage dependencies and run your application.
