@@ -21,7 +21,7 @@ class EquipmentService:
         """
         Fetch equipment list based on type and time range.
         """
-        # Mock implementation 
+        # Mock implementation
         mock_port1 = Port(portNumber="00", portStatus="Available")
         mock_port2 = Port(portNumber="01", portStatus="Available")
 
@@ -53,6 +53,6 @@ class EquipmentService:
             slots=[mock_slot1, mock_slot2]
         )
 
-        
+
 
         return [mock_equipment]

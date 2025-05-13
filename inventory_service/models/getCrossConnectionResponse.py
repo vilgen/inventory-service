@@ -1,6 +1,8 @@
 from dataclasses import Field
 from enum import Enum
-from pydantic import BaseModel, Field, validator
+
+from pydantic import BaseModel, Field
+
 
 class CrossConnectionType(str, Enum):
     """
@@ -11,7 +13,7 @@ class CrossConnectionType(str, Enum):
     OLT_TRANSPORT_PE = "OLT_TRANSPORT_PE"
     MSAN_TRANSPORT_PE = "MSAN_TRANSPORT_PE"
     PE_TRANSPORT_PE = "PE_TRANSPORT_PE"
-    
+
     # RMS System Cross Connections
     RAN_MDU_OLT_PE = "RAN_MDU_OLT_PE"
     MDU_OLT = "MDU_OLT"

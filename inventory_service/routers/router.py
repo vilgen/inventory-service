@@ -1,14 +1,22 @@
 
 from fastapi import APIRouter, Depends, Path
+
+from inventory_service.models.channelRouteInfo import ChannelRouteInfoListResponse
+from inventory_service.models.fttxList import FTTHLinkInfoListResponse
 from inventory_service.models.getChannelList import CircuitListResponse, CircuitType
-from inventory_service.models.getCrossConnectionResponse import CrossConnectionListResponse, CrossConnectionResponse, CrossConnectionType
+from inventory_service.models.getCrossConnectionResponse import (
+    CrossConnectionListResponse,
+    CrossConnectionType,
+)
+from inventory_service.services.channelRouteInfoService import ChannelRouteService
 from inventory_service.services.circuitService import CircuitService
 from inventory_service.services.crossConnectionService import CrossConnectionService
+from inventory_service.services.fttxService import FTTXService
 
 from ..middleware.header_validation import validate_service_id
+from ..middleware.time_range_validator import TimeRangeParams
 from ..models.getEquipmentListResponse import Equipment, EquipmentType
 from ..services.equipmentService import EquipmentService
-from ..middleware.time_range_validator import TimeRangeParams
 
 router = APIRouter(
     prefix="/api/v1/granite",
@@ -36,7 +44,7 @@ async def get_cross_connection_list(
         client_msg_ref=headers["client_msg_ref"],
         correlation_ref=headers["correlation_ref"]
     )
-    
+
     return {"items": connections}
 
 
@@ -95,3 +103,53 @@ async def get_circuit_list(
     )
 
     return {"items": circuit_list}
+
+@router.get(
+    "/channelRoute/{prn}",
+    response_model=ChannelRouteInfoListResponse,
+    summary="Get Channel Route Information",
+    description="Retrieves channel route information for a specific PRN (Project Reference Number)."
+)
+async def get_channel_route_info(
+    prn: str = Path(
+        ...,
+        description="Project Reference Number (PRN) to retrieve channel route information for"
+    ),
+    time_params: TimeRangeParams = Depends(),
+    headers: dict = Depends(validate_service_id("getChannelRouteInfo")),
+    channel_route_service: ChannelRouteService = Depends(),
+):
+    """
+    Retrieve channel route information for a specific PRN.
+    """
+    route_info_list = await channel_route_service.get_channel_route_info(
+        prn=prn,
+        start_time=time_params.start_time,
+        end_time=time_params.end_time,
+        client_msg_ref=headers["client_msg_ref"],
+        correlation_ref=headers["correlation_ref"]
+    )
+
+    return {"items": route_info_list}
+@router.get(
+    "/fttxService",
+    response_model=FTTHLinkInfoListResponse,
+    summary="Get FTTX Service Information",
+    description="Retrieves FTTX service information within the specified time range."
+)
+async def get_fttx_service(
+    time_params: TimeRangeParams = Depends(),
+    headers: dict = Depends(validate_service_id("getFTTXService")),
+    fttx_service: FTTXService = Depends(),
+):
+    """
+    Retrieve FTTX service information within the specified time range.
+    """
+    fttx_links = await fttx_service.get_fttx_service_info(
+        start_time=time_params.start_time,
+        end_time=time_params.end_time,
+        client_msg_ref=headers["client_msg_ref"],
+        correlation_ref=headers["correlation_ref"]
+    )
+    
+    return {"items": fttx_links}

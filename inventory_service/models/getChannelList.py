@@ -1,6 +1,6 @@
 from enum import Enum
-from typing import List
-from pydantic import BaseModel, Field, validator
+
+from pydantic import BaseModel, Field
 
 
 class CircuitType(str, Enum):
@@ -86,7 +86,7 @@ class CircuitResponse(BaseModel):
 
 class CircuitListResponse(BaseModel):
     """Model representing a list of circuit responses."""
-    items: List[CircuitResponse] = Field(default_factory=list, description="List of circuit items")
+    items: list[CircuitResponse] = Field(default_factory=list, description="List of circuit items")
 
     class Config:
         schema_extra = {

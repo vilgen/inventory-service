@@ -1,6 +1,6 @@
 from datetime import datetime
-from typing import List
 from uuid import UUID
+
 from inventory_service.models.getCrossConnectionResponse import CrossConnectionResponse
 
 
@@ -8,7 +8,7 @@ class CrossConnectionService:
     """
     Service for cross-connection related operations.
     """
-    
+
     async def get_cross_connections(
         self,
         connection_type: CrossConnectionResponse,
@@ -16,7 +16,7 @@ class CrossConnectionService:
         end_time: datetime,
         client_msg_ref: UUID,
         correlation_ref: UUID
-    ) -> List[CrossConnectionResponse]:
+    ) -> list[CrossConnectionResponse]:
         """
         Fetch cross connections based on type and time range.
         """

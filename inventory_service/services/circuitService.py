@@ -1,8 +1,7 @@
 from datetime import datetime
-from typing import List, Optional
 from uuid import UUID
 
-from ..models.getChannelList  import CircuitResponse, CircuitType
+from ..models.getChannelList import CircuitResponse, CircuitType
 
 
 class CircuitService:
@@ -17,7 +16,7 @@ class CircuitService:
         end_time: datetime,
         client_msg_ref: UUID,
         correlation_ref: UUID
-    ) -> List[CircuitResponse]:
+    ) -> list[CircuitResponse]:
         """
         Fetch circuit list based on type, status, and time range.
         
@@ -62,7 +61,7 @@ class CircuitService:
             zPortName="1.2.2.1",
             zDdfOdfInfo="00.302.06/02/10/36",
         )
-        
+
         mock_circuit2 = CircuitResponse(
             ringName="JEC331-2",
             termination="101-00-000/ZNJA144",
@@ -94,7 +93,7 @@ class CircuitService:
         )
 
         return [mock_circuit1, mock_circuit2]
-    
+
     async def get_circuit_by_id(
         self,
         circuit_id: str,
@@ -142,5 +141,5 @@ class CircuitService:
             zPortName="1.2.2.1",
             zDdfOdfInfo="00.302.06/02/10/36",
         )
-        
+
         return mock_circuit

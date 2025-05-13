@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
+
 from pydantic import BaseModel, validator
+
 
 class TimeRangeParams(BaseModel):
     start_time: datetime

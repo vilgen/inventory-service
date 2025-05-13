@@ -1,7 +1,6 @@
-from datetime import datetime, timedelta
 from enum import Enum
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 
 
 class EquipmentType(str, Enum):
@@ -9,13 +8,13 @@ class EquipmentType(str, Enum):
     OTN = "OTN"
     SDH = "SDH"
     OPTICAL = "OPTICAL"
-    
+
     # Fiber Access Equipment
     OLT = "OLT"
     FTTM_MDU = "FTTM-MDU"
     FTTH_OLT = "FTTH-OLT"
     FTTH_ONT = "FTTH-ONT"
-    
+
     # Access Equipment
     UPE = "UPE"
     MBH = "MBH"
@@ -24,18 +23,18 @@ class EquipmentType(str, Enum):
     DSLAM_AGG = "DSLAM AGG"
     ETHERNET_AGGREGATOR = "ETHERNET AGGREGATOR"
     MSAN = "MSAN"
-    
+
     # Switching Equipment
     SWITCH = "SWITCH"
     IP_SWITCH = "IP SWITCH"
-    
+
     # Routing Equipment
     PE = "PE"
     PE_ROUTER = "PE ROUTER"
-    
+
     # Radio Access Network Equipment
     RAN = "RAN"
-    
+
     # Microwave Equipment
     MW = "MW"
     MW_LINK = "MW LINK"
