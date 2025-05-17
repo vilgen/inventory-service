@@ -22,7 +22,7 @@ from ..utils.validation import TimeRangeParams, validate_service_id
 
 router = APIRouter(
     prefix="/api/v1/granite",
-    tags=["Equipment"],
+    tags=["Inventory Services"],
 )
 
 @router.get(
