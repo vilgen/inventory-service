@@ -1,8 +1,8 @@
 from datetime import datetime
 from uuid import UUID
 
-from ..models.channelRouteInfo import ChannelRouteInfo
-
+from inventory_service.models.dto.channel_route_info import ChannelRouteInfo
+from inventory_service.models.response.channel_route_info_response import ChannelRouteInfoListResponse
 
 class ChannelRouteService:
     """
@@ -16,7 +16,7 @@ class ChannelRouteService:
         end_time: datetime,
         client_msg_ref: UUID,
         correlation_ref: UUID
-    ) -> list[ChannelRouteInfo]:
+    ) -> ChannelRouteInfoListResponse:
         """
         Fetch channel route information based on PRN and time range.
         
@@ -72,4 +72,4 @@ class ChannelRouteService:
         # You could add logic here to filter or customize the mock data based on the PRN
         # For example, if the PRN matches a certain pattern, return different routes
 
-        return [mock_route_1, mock_route_2]
+        return ChannelRouteInfoListResponse(root=[mock_route_1, mock_route_2])

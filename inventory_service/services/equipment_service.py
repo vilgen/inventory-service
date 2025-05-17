@@ -2,8 +2,8 @@
 from datetime import datetime
 from uuid import UUID
 
-from ..models.getEquipmentListResponse import Equipment, EquipmentType, Port, Slot
-
+from inventory_service.models.dto.equipment import Equipment, EquipmentType, Port, Slot
+from inventory_service.models.response.equipment_response import EquipmentListResponse
 
 class EquipmentService:
     """
@@ -17,7 +17,7 @@ class EquipmentService:
         end_time: datetime,
         client_msg_ref: UUID,
         correlation_ref: UUID
-    ) -> list[Equipment]:
+    ) -> EquipmentListResponse:
         """
         Fetch equipment list based on type and time range.
         """
@@ -53,6 +53,4 @@ class EquipmentService:
             slots=[mock_slot1, mock_slot2]
         )
 
-
-
-        return [mock_equipment]
+        return EquipmentListResponse(root=[mock_equipment])

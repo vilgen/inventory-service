@@ -1,29 +1,34 @@
 
 from fastapi import APIRouter, Depends, Path
 
-from inventory_service.models.channelRouteInfo import ChannelRouteInfoListResponse
-from inventory_service.models.fttxList import FTTHLinkInfoListResponse
-from inventory_service.models.getChannelList import CircuitListResponse, CircuitType
-from inventory_service.models.getCrossConnectionResponse import (
-    CrossConnectionListResponse,
-    CrossConnectionType,
-)
-from inventory_service.services.channelRouteInfoService import ChannelRouteService
-from inventory_service.services.circuitService import CircuitService
-from inventory_service.services.crossConnectionService import CrossConnectionService
-from inventory_service.services.fttxService import FTTXService
+from inventory_service.models.response.channel_route_info_response import ChannelRouteInfoListResponse
+from inventory_service.models.response.fttx_response import FTTHLinkInfoListResponse
+from inventory_service.models.response.equipment_response import EquipmentListResponse
+from inventory_service.models.response.channel_response import ChannelListResponse
+from inventory_service.models.response.cross_connection_response import CrossConnectionListResponse
+from inventory_service.models.dto.channel import ChannelType
+from inventory_service.models.dto.cross_connection import CrossConnectionType
+from inventory_service.models.dto.equipment import EquipmentType
+
+
+from inventory_service.services.channel_route_info_service import ChannelRouteService
+from inventory_service.services.channel_service import ChannelService
+from inventory_service.services.cross_connection_service import CrossConnectionService
+from inventory_service.services.fttx_service import FTTXService
+from inventory_service.services.equipment_service import EquipmentService
 
 from ..middleware.header_validation import validate_service_id
 from ..middleware.time_range_validator import TimeRangeParams
-from ..models.getEquipmentListResponse import Equipment, EquipmentType
-from ..services.equipmentService import EquipmentService
+
+
 
 router = APIRouter(
     prefix="/api/v1/granite",
     tags=["Equipment"],
 )
+
 @router.get(
-    "/cross-connection/{cross_connection_type}",
+    "/crossConnection/{cross_connection_type}",
     response_model=CrossConnectionListResponse,
     summary="Get Cross Connection List",
     description="Retrieves a list of cross connections."
@@ -37,7 +42,7 @@ async def get_cross_connection_list(
     headers: dict = Depends(validate_service_id("getCrossConnectionList")),
     cross_connection_service: CrossConnectionService = Depends(),
 ):
-    connections = await cross_connection_service.get_cross_connections(
+    return await cross_connection_service.get_cross_connections(
         connection_type=cross_connection_type,
         start_time=time_params.start_time,
         end_time=time_params.end_time,
@@ -45,12 +50,10 @@ async def get_cross_connection_list(
         correlation_ref=headers["correlation_ref"]
     )
 
-    return {"items": connections}
-
 
 @router.get(
     "/equipment/{equipment_type}",
-    response_model=list[Equipment],
+    response_model=EquipmentListResponse,
     summary="Get Equipment List",
     description="Retrieves a list of equipment filtered by type and time range."
 )
@@ -66,7 +69,7 @@ async def get_equipment_list(
     """
     Retrieve a list of equipment based on type and time range.
     """
-    equipment_list = await equipment_service.get_equipment_list(
+    return await equipment_service.get_equipment_list(
         equipment_type=equipment_type,
         start_time=time_params.start_time,
         end_time=time_params.end_time,
@@ -74,35 +77,32 @@ async def get_equipment_list(
         correlation_ref=headers["correlation_ref"]
     )
 
-    return equipment_list
-
 @router.get(
-    "/circuits/{circuit_type}",
-    response_model=CircuitListResponse,
-    summary="Get Circuit List",
-    description="Retrieves a list of circuits filtered by type, status, and time range."
+    "/channel/{channel_type}",
+    response_model=ChannelListResponse,
+    summary="Get Channel List",
+    description="Retrieves a list of channels filtered by type, status, and time range."
 )
-async def get_circuit_list(
-    circuit_type: CircuitType = Path(
+async def get_channel_list(
+    channel_type: ChannelType = Path(
         ...,
-        description="Type of circuit to retrieve"
+        description="Type of channel to retrieve"
     ),
     time_params: TimeRangeParams = Depends(),
-    headers: dict = Depends(validate_service_id("getCircuitList")),
-    circuit_service: CircuitService = Depends(),
+    headers: dict = Depends(validate_service_id("getChannelList")),
+    channel_service: ChannelService = Depends(),
 ):
     """
-    Retrieve a list of circuits based on type, status, and time range.
+    Retrieve a list of channels based on type, status, and time range.
     """
-    circuit_list = await circuit_service.get_circuit_list(
-        circuit_type=circuit_type,
+    return await channel_service.get_channel_list(
+        channel_type=channel_type,
         start_time=time_params.start_time,
         end_time=time_params.end_time,
         client_msg_ref=headers["client_msg_ref"],
         correlation_ref=headers["correlation_ref"]
     )
 
-    return {"items": circuit_list}
 
 @router.get(
     "/channelRoute/{prn}",
@@ -122,7 +122,7 @@ async def get_channel_route_info(
     """
     Retrieve channel route information for a specific PRN.
     """
-    route_info_list = await channel_route_service.get_channel_route_info(
+    return await channel_route_service.get_channel_route_info(
         prn=prn,
         start_time=time_params.start_time,
         end_time=time_params.end_time,
@@ -130,7 +130,6 @@ async def get_channel_route_info(
         correlation_ref=headers["correlation_ref"]
     )
 
-    return {"items": route_info_list}
 @router.get(
     "/fttxService",
     response_model=FTTHLinkInfoListResponse,
@@ -145,11 +144,10 @@ async def get_fttx_service(
     """
     Retrieve FTTX service information within the specified time range.
     """
-    fttx_links = await fttx_service.get_fttx_service_info(
+    return await fttx_service.get_fttx_service_info(
         start_time=time_params.start_time,
         end_time=time_params.end_time,
         client_msg_ref=headers["client_msg_ref"],
         correlation_ref=headers["correlation_ref"]
     )
     
-    return {"items": fttx_links}

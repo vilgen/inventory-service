@@ -1,7 +1,5 @@
-from enum import Enum
-
 from pydantic import BaseModel, Field
-
+from enum import Enum
 
 class EquipmentType(str, Enum):
     DWDM = "DWDM"
@@ -39,7 +37,6 @@ class EquipmentType(str, Enum):
     MW = "MW"
     MW_LINK = "MW LINK"
     MW_NODE = "MW NODE"
-
 
 
 class Port(BaseModel):
@@ -105,38 +102,6 @@ class Equipment(BaseModel):
                         "cardType": "IPMB",
                         "cardStatus": "ASSIGNED",
                         "ports": [{"portNumber": "00", "portStatus": "Available"}]
-                    }
-                ]
-            }
-        }
-
-class EquipmentListResponse(BaseModel):
-
-    items: list[Equipment] = Field(default_factory=list, description="List of equipment items")
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "items": [
-                    {
-                        "equipmentName": "108-00-310-MSAN MATB 1",
-                        "shelfNumber": "1",
-                        "equipmentType": "MSAN",
-                        "equipmentStatus": "INSTALLED",
-                        "equipmentVendor": "HUAWEI",
-                        "equipmentModel": "UA5000",
-                        "lastModifiedTime": "18-APR-2023",
-                        "inBandIP": "10.11.10.1",
-                        "siteNumber": "101-00-000",
-                        "siteCLLI": "MURBRD00",
-                        "slots": [
-                            {
-                                "slotNo": "02",
-                                "cardType": "IPMB",
-                                "cardStatus": "ASSIGNED",
-                                "ports": [{"portNumber": "00", "portStatus": "Available"}]
-                            }
-                        ]
                     }
                 ]
             }
