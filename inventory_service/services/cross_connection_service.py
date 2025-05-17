@@ -3,7 +3,6 @@ from uuid import UUID
 
 from inventory_service.models.dto.cross_connection import CrossConnection, CrossConnectionType
 from inventory_service.models.response.cross_connection_response import CrossConnectionListResponse
-
 class CrossConnectionService:
     """
     Service for cross-connection related operations.

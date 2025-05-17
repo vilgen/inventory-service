@@ -17,9 +17,7 @@ from inventory_service.services.cross_connection_service import CrossConnectionS
 from inventory_service.services.fttx_service import FTTXService
 from inventory_service.services.equipment_service import EquipmentService
 
-from ..middleware.header_validation import validate_service_id
-from ..middleware.time_range_validator import TimeRangeParams
-
+from ..utils.validation import TimeRangeParams, validate_service_id
 
 
 router = APIRouter(
