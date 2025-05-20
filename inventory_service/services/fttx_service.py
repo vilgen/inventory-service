@@ -2,7 +2,9 @@ from datetime import datetime
 from typing import List
 from uuid import UUID
 
-from ..models.fttxList import FTTHLinkInfo
+from inventory_service.models.dto.fttx import FTTHLinkInfo
+from inventory_service.models.response.fttx_response import FTTHLinkInfoListResponse
+
 class FTTXService:
     """
     Service for FTTX-related operations.
@@ -14,7 +16,7 @@ class FTTXService:
         end_time: datetime,
         client_msg_ref: UUID,
         correlation_ref: UUID
-    ) -> List[FTTHLinkInfo]:
+    ) -> FTTHLinkInfoListResponse:
         """
         Fetch FTTX service information based on time range.
         
@@ -133,5 +135,5 @@ class FTTXService:
         # Apply filters based on time range
         # In real implementation, you'd apply the start_time and end_time filters to database query
         # For now, we just return the mock data
+        return FTTHLinkInfoListResponse(root=[mock_ftth_link_1, mock_ftth_link_2])
         
-        return [mock_ftth_link_1, mock_ftth_link_2]

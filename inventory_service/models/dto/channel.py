@@ -8,7 +8,7 @@ class ChannelType(str, Enum):
     SDH = "SDH"
 
 
-class ChannelResponse(BaseModel):
+class Channel(BaseModel):
     """Model representing a circuit response."""
     ringName: str = Field(..., description="Name of the ring")
     termination: str = Field(..., description="Termination point")
@@ -80,53 +80,5 @@ class ChannelResponse(BaseModel):
                 "PEAggPort": "-",
                 "PEAggBayloc": "-",
                 "protectionType": "None"
-            }
-        }
-
-
-class ChannelListResponse(BaseModel):
-    """Model representing a list of circuit responses."""
-    items: list[ChannelResponse] = Field(default_factory=list, description="List of circuit items")
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "items": [
-                    {
-                        "ringName": "JEC331-1",
-                        "termination": "101-00-000/ZNJA143",
-                        "PRN": "89110",
-                        "NI": "0/160316",
-                        "RN": "",
-                        "projectId": "Optimization 20",
-                        "circuitNo": "9913",
-                        "requirementType": "E1",
-                        "requiredCircuitsNo": "1",
-                        "facilityId": "IDEN/101-00-000-IDEN/ZNJA143",
-                        "facilityTimeSlot": "|8#IMST_AU4|1#IMST_AU4",
-                        "circuitTimeSlot": "361:IMST_E1",
-                        "circuitName": "IDEN/101-00-000_IDEN/ZNJA143_30N01",
-                        "status": "Live",
-                        "bandwidth": "IMST_E1",
-                        "aSite": "101-00-000",
-                        "aNodeName": "10100000-5MU",
-                        "aShelfNumber": "1",
-                        "aSlotName": "SLOT TS8",
-                        "aPortName": "PORT 36",
-                        "aDdfOdfInfo": "00.302.06/02/10/36",
-                        "zSite": "ZNJA143",
-                        "zNodeName": "ZNJA143-DXX",
-                        "zShelfNumber": "1",
-                        "zSlotName": "ZNJA143_TN2",
-                        "zPortName": "1.2.2.1",
-                        "zDdfOdfInfo": "00.302.06/02/10/36",
-                        "beneficiaryName": "-",
-                        "PEAggName": "-",
-                        "PEAggSlot": "-",
-                        "PEAggPort": "-",
-                        "PEAggBayloc": "-",
-                        "protectionType": "None"
-                    }
-                ]
             }
         }

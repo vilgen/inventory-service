@@ -1,27 +1,27 @@
 from datetime import datetime
 from uuid import UUID
 
-from ..models.getChannelList import ChannelResponse, CircuitType
+from inventory_service.models.dto.channel import Channel, ChannelType
+from inventory_service.models.response.channel_response import ChannelListResponse
 
-
-class CircuitService:
+class ChannelService:
     """
-    Service for circuit-related operations.
+    Service for channel-related operations.
     """
 
     async def get_channel_list(
         self,
-        circuit_type: CircuitType,
+        channel_type: ChannelType,
         start_time: datetime,
         end_time: datetime,
         client_msg_ref: UUID,
         correlation_ref: UUID
-    ) -> list[ChannelResponse]:
+    ) -> list[Channel]:
         """
-        Fetch circuit list based on type, status, and time range.
+        Fetch channel list based on type, status, and time range.
         
         Args:
-            circuit_type: Type of circuit to retrieve
+            channel_type: Type of channel to retrieve
             status: Optional status to filter by
             start_time: Start time for filtering
             end_time: End time for filtering
@@ -29,10 +29,10 @@ class CircuitService:
             correlation_ref: Correlation reference
             
         Returns:
-            List of circuit responses
+            List of channel responses
         """
         # Mock implementation
-        mock_circuit1 = ChannelResponse(
+        mock_channel1 = Channel(
             ringName="JEC331-1",
             termination="101-00-000/ZNJA143",
             PRN="89110",
@@ -40,14 +40,14 @@ class CircuitService:
             RN="",
             projectId="Optimization 20",
             circuitNo="9913",
-            requirementType=circuit_type.value,
+            requirementType=channel_type.value,
             requiredCircuitsNo="1",
             facilityId="IDEN/101-00-000-IDEN/ZNJA143",
             facilityTimeSlot="|8#IMST_AU4|1#IMST_AU4",
             circuitTimeSlot="361:IMST_E1",
             circuitName="IDEN/101-00-000_IDEN/ZNJA143_30N01",
             status= "Live",
-            bandwidth=f"IMST_{circuit_type.value}",
+            bandwidth=f"IMST_{channel_type.value}",
             aSite="101-00-000",
             aNodeName="10100000-5MU",
             aShelfNumber="1",
@@ -62,7 +62,7 @@ class CircuitService:
             zDdfOdfInfo="00.302.06/02/10/36",
         )
 
-        mock_circuit2 = ChannelResponse(
+        mock_channel2 = Channel(
             ringName="JEC331-2",
             termination="101-00-000/ZNJA144",
             PRN="89111",
@@ -70,14 +70,14 @@ class CircuitService:
             RN="",
             projectId="Optimization 20",
             circuitNo="9914",
-            requirementType=circuit_type.value,
+            requirementType=channel_type.value,
             requiredCircuitsNo="1",
             facilityId="IDEN/101-00-000-IDEN/ZNJA144",
             facilityTimeSlot="|9#IMST_AU4|2#IMST_AU4",
             circuitTimeSlot="362:IMST_E1",
             circuitName="IDEN/101-00-000_IDEN/ZNJA144_30N02",
             status="Live",
-            bandwidth=f"IMST_{circuit_type.value}",
+            bandwidth=f"IMST_{channel_type.value}",
             aSite="101-00-000",
             aNodeName="10100000-5MU",
             aShelfNumber="1",
@@ -92,34 +92,34 @@ class CircuitService:
             zDdfOdfInfo="00.302.06/02/10/37",
         )
 
-        return [mock_circuit1, mock_circuit2]
+        return ChannelListResponse(root=[mock_channel1, mock_channel2])
 
-    async def get_circuit_by_id(
+    async def get_channel_by_id(
         self,
-        circuit_id: str,
+        channel_id: str,
         client_msg_ref: UUID,
         correlation_ref: UUID
-    ) -> ChannelResponse:
+    ) -> Channel:
         """
-        Fetch a specific circuit by ID.
+        Fetch a specific channel by ID.
         
         Args:
-            circuit_id: ID of the circuit to retrieve
+            channel_id: ID of the channel to retrieve
             client_msg_ref: Client message reference
             correlation_ref: Correlation reference
             
         Returns:
-            Circuit response
+            Channel response
         """
         # Mock implementation
-        mock_circuit = ChannelResponse(
+        mock_channel = Channel(
             ringName="JEC331-1",
             termination="101-00-000/ZNJA143",
             PRN="89110",
             NI="0/160316",
             RN="",
             projectId="Optimization 20",
-            circuitNo=circuit_id,
+            circuitNo=channel_id,
             requirementType="E1",
             requiredCircuitsNo="1",
             facilityId="IDEN/101-00-000-IDEN/ZNJA143",
@@ -142,4 +142,4 @@ class CircuitService:
             zDdfOdfInfo="00.302.06/02/10/36",
         )
 
-        return mock_circuit
+        return ChannelListResponse(root=[mock_channel])

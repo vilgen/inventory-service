@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from ..schemas.portORM import PortORM
-from ..models.getEquipmentListResponse import Port
+from ..models.dto.equipment import Port
 
 
 def get_port(db: Session, port_id: int) -> PortORM | None:

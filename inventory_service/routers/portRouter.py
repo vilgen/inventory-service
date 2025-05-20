@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from ..models.getEquipmentListResponse import PortCreate, PortRead
+from inventory_service.models.dto.equipment import PortCreate, PortRead
 from ..services.portService import get_port, get_ports, create_port
 from ..utils.deps import get_db
 
