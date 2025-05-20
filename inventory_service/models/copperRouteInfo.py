@@ -1,0 +1,154 @@
+from typing import Optional, List
+from pydantic import BaseModel, Field
+
+
+class CopperRouteInfo(BaseModel):
+    pathname: str = Field(..., description="Path name of the copper link")
+    category: str = Field(..., description="Category of the route")
+    
+    voiceEquipmentType: str = Field(..., description="Type of the voice equipment")
+    voiceExchangeID: str = Field(..., description="ID of the voice exchange")
+    voiceEquipmentCLLI: str = Field(..., description="CLLI of the voice equipment")
+    voiceSlot: str = Field(..., description="Slot of the voice equipment")
+    voicePort: str = Field(..., description="Port of the voice equipment")
+    voiceAccessPortID: str = Field(..., description="Access port ID of the voice equipment")
+    voiceEN: str = Field(..., description="EN (Equipment Number) of the voice equipment")
+    voiceNodeName: str = Field(..., description="Node name of the voice equipment")
+    voiceNodeUpSlot: Optional[str] = Field(None, description="Up slot of the voice node")
+    voiceNodeUpPort: Optional[str] = Field(None, description="Up port of the voice node")
+    voiceNodeIPAddress: Optional[str] = Field(None, description="IP address of the voice node")
+    voiceV5ID: Optional[str] = Field(None, description="V5 ID of the voice connection")
+    voiceSwitchID: str = Field(..., description="Switch ID of the voice equipment")
+    voiceHostExchangeSwitch: str = Field(..., description="Host exchange switch for the voice equipment")
+    voiceSwitchType: str = Field(..., description="Type of the voice switch")
+    voiceSwitchName: str = Field(..., description="Name of the voice switch")
+    voiceNMSJVCode: Optional[str] = Field(None, description="NMS JV Code for the voice equipment")
+    voiceSwitchModel: Optional[str] = Field(None, description="Model of the voice switch")
+    voiceAggName: Optional[str] = Field(None, description="Aggregator name")
+    voiceAggCLLI: Optional[str] = Field(None, description="CLLI of the aggregator")
+    voiceAggIP: Optional[str] = Field(None, description="IP of the voice aggregator")
+    voiceAggPrimaryPort: Optional[str] = Field(None, description="Primary port of the voice aggregator")
+    voiceAggStandbyPort: Optional[str] = Field(None, description="Standby port of the voice aggregator")
+    
+    dataEquipmentType: str = Field(..., description="Type of the data equipment")
+    dataNodeName: str = Field(..., description="Name of the data node")
+    dataNodeUpSlot: Optional[str] = Field(None, description="Up slot of the data node")
+    dataNodeUpPort: Optional[str] = Field(None, description="Up port of the data node")
+    dataNodeIPAddress: Optional[str] = Field(None, description="IP address of the data node")
+    dataEquipmentCLLI: str = Field(..., description="CLLI of the data equipment")
+    dataSlot: str = Field(..., description="Slot of the data equipment")
+    dataPort: str = Field(..., description="Port of the data equipment")
+    dataAccessPortID: Optional[str] = Field(None, description="Access port ID for data")
+    dataEN: Optional[str] = Field(None, description="EN (Equipment Number) for data")
+    dataEL: Optional[str] = Field(None, description="EL (Equipment Location) for data")
+    
+    copperCabinet: List[str] = Field(default_factory=list, description="List of copper cabinet identifiers")
+    cabinetStripPairDPPair: Optional[str] = Field(None, description="Cabinet strip and DP pair")
+    primaryStripCable: str = Field(..., description="Primary strip cable identifier")
+    secondaryStripCable: str = Field(..., description="Secondary strip cable identifier")
+    
+    dataV5ID: Optional[str] = Field(None, description="V5 ID for data equipment")
+    dataExchangeID: Optional[str] = Field(None, description="Exchange ID for data equipment")
+    dataHostExchangeSwitch: Optional[str] = Field(None, description="Host exchange switch for data")
+    dataSwitchID: Optional[str] = Field(None, description="Switch ID for data")
+    dataSwitchType: Optional[str] = Field(None, description="Switch type for data")
+    dataSwitchName: Optional[str] = Field(None, description="Switch name for data")
+    dataNMSJVCode: Optional[str] = Field(None, description="NMS JV Code for data")
+    dataAggName: Optional[str] = Field(None, description="Data aggregator name")
+    dataAggCLLI: Optional[str] = Field(None, description="CLLI of the data aggregator")
+    dataAggIP: Optional[str] = Field(None, description="IP of the data aggregator")
+    dataAggPrimaryPort: Optional[str] = Field(None, description="Primary port of the data aggregator")
+    dataAggStandbyPort: Optional[str] = Field(None, description="Standby port of the data aggregator")
+    
+    copperPlateID: str = Field(..., description="Copper plate ID")
+    plateLatitude: Optional[str] = Field(None, description="Latitude of the copper plate")
+    plateIDLongitude: Optional[str] = Field(None, description="Longitude of the copper plate")
+    domainName: str = Field(..., description="Domain name")
+    plateDistrict: Optional[str] = Field(None, description="District of the plate")
+    plateRegion: Optional[str] = Field(None, description="Region of the plate")
+    plateExchange: Optional[str] = Field(None, description="Exchange name of the plate")
+    treatmentPriority: Optional[str] = Field(None, description="Treatment priority")
+    MDFName: Optional[str] = Field(None, description="Name of the MDF")
+    MDFSlot: Optional[str] = Field(None, description="Slot of the MDF")
+    MDFPort: Optional[str] = Field(None, description="Port of the MDF")
+    classA: Optional[str] = Field(None, description="Class A information")
+    telephoneNumber: str = Field(..., description="Telephone number")
+
+
+class CopperRouteInfoListResponse(BaseModel):
+    items: List[CopperRouteInfo] = Field(default_factory=list, description="List of copper route information items")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "items": [
+                    {
+                        "pathname": "MNAREAAT-FSLY 076:0146-COPPER_LINK 5116307",
+                        "category": "COPPER_LINK",
+                        "voiceEquipmentType": "MSAN",
+                        "voiceExchangeID": "MNAREAAT-MSAN FSY9A/00001-0",
+                        "voiceEquipmentCLLI": "Area PP#699/1 (E076)",
+                        "voiceSlot": "06",
+                        "voicePort": "19",
+                        "voiceAccessPortID": "MNAREAAT-MSAN FSY9A/00001-0",
+                        "voiceEN": "N0000100019",
+                        "voiceNodeName": "M302-32-306_AFSY9",
+                        "voiceNodeUpSlot": "",
+                        "voiceNodeUpPort": "",
+                        "voiceNodeIPAddress": "",
+                        "voiceV5ID": "",
+                        "voiceSwitchID": "FSY9A",
+                        "voiceHostExchangeSwitch": "FSY11",
+                        "voiceSwitchType": "NGN Huawei MSAN",
+                        "voiceSwitchName": "NGN PRINCE MOHD__302-32-306",
+                        "voiceNMSJVCode": "",
+                        "voiceSwitchModel": "",
+                        "voiceAggName": "",
+                        "voiceAggCLLI": "",
+                        "voiceAggIP": "",
+                        "voiceAggPrimaryPort": "",
+                        "voiceAggStandbyPort": "",
+                        "dataEquipmentType": "MDF",
+                        "dataNodeName": "FSY9A-001",
+                        "dataNodeUpSlot": "",
+                        "dataNodeUpPort": "",
+                        "dataNodeIPAddress": "",
+                        "dataEquipmentCLLI": "MNAREAAT",
+                        "dataSlot": "001",
+                        "dataPort": "015",
+                        "dataAccessPortID": "",
+                        "dataEN": "",
+                        "dataEL": "",
+                        "copperCabinet": ["P-1-10", "S-145-154"],
+                        "cabinetStripPairDPPair": "",
+                        "primaryStripCable": "FSY9A E01-00002",
+                        "secondaryStripCable": "FSLY 076:0146",
+                        "dataV5ID": "",
+                        "dataExchangeID": "",
+                        "dataHostExchangeSwitch": "",
+                        "dataSwitchID": "",
+                        "dataSwitchType": "",
+                        "dataSwitchName": "",
+                        "dataNMSJVCode": "",
+                        "dataAggName": "",
+                        "dataAggCLLI": "",
+                        "dataAggIP": "",
+                        "dataAggPrimaryPort": "",
+                        "dataAggStandbyPort": "",
+                        "copperPlateID": "FSLY 076:0146",
+                        "plateLatitude": "",
+                        "plateIDLongitude": "",
+                        "domainName": "hbu__domain",
+                        "plateDistrict": "",
+                        "plateRegion": "",
+                        "plateExchange": "",
+                        "treatmentPriority": "",
+                        "MDFName": "",
+                        "MDFSlot": "",
+                        "MDFPort": "",
+                        "classA": "",
+                        "telephoneNumber": "138110554"
+                    }
+                ]
+            }
+        }

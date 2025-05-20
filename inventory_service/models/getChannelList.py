@@ -3,12 +3,12 @@ from enum import Enum
 from pydantic import BaseModel, Field
 
 
-class CircuitType(str, Enum):
+class ChannelType(str, Enum):
     DWDM = "DWDM"
     SDH = "SDH"
 
 
-class CircuitResponse(BaseModel):
+class ChannelResponse(BaseModel):
     """Model representing a circuit response."""
     ringName: str = Field(..., description="Name of the ring")
     termination: str = Field(..., description="Termination point")
@@ -84,9 +84,9 @@ class CircuitResponse(BaseModel):
         }
 
 
-class CircuitListResponse(BaseModel):
+class ChannelListResponse(BaseModel):
     """Model representing a list of circuit responses."""
-    items: list[CircuitResponse] = Field(default_factory=list, description="List of circuit items")
+    items: list[ChannelResponse] = Field(default_factory=list, description="List of circuit items")
 
     class Config:
         schema_extra = {

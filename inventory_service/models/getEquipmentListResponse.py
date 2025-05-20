@@ -41,7 +41,6 @@ class EquipmentType(str, Enum):
     MW_NODE = "MW NODE"
 
 
-
 class Port(BaseModel):
     portNumber: str = Field(..., description="Port number identifier")
     portStatus: str = Field(..., description="Current status of the port")
@@ -54,6 +53,27 @@ class Port(BaseModel):
             }
         }
 
+class PortCreate(Port):
+    class Config:
+        schema_extra = {
+            "example": {
+                "portNumber": "1",
+                "portStatus": "UP"
+            }
+        }
+
+class PortRead(Port):
+    id: int = Field(..., description="Unique database ID for the port")
+
+    class Config:
+        orm_mode = True
+        schema_extra = {
+            "example": {
+                "id": 1,
+                "portNumber": "1",
+                "portStatus": "UP"
+            }
+        }
 class Slot(BaseModel):
     slotNo: str = Field(..., description="Slot number identifier")
     cardType: str = Field(..., descriptions="Type of card installed")

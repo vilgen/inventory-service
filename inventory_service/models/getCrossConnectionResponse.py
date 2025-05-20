@@ -8,13 +8,11 @@ class CrossConnectionType(str, Enum):
     """
     Enum representing different types of cross connections between network equipment.
     """
-    # IMST System Cross Connections
     RAN_TRANSPORT_PE = "RAN_TRANSPORT_PE"
     OLT_TRANSPORT_PE = "OLT_TRANSPORT_PE"
     MSAN_TRANSPORT_PE = "MSAN_TRANSPORT_PE"
     PE_TRANSPORT_PE = "PE_TRANSPORT_PE"
 
-    # RMS System Cross Connections
     RAN_MDU_OLT_PE = "RAN_MDU_OLT_PE"
     MDU_OLT = "MDU_OLT"
     OLT_PE = "OLT_PE"
