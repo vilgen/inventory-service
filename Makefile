@@ -14,3 +14,7 @@ ruff:
 
 ruff-fix:
 	poetry run ruff check --fix .
+
+rm-poetry-lock:
+	rm poetry.lock
+	poetry lock

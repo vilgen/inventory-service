@@ -7,20 +7,22 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-fastapi = "^0.115.12"
-uvicorn = {extras = ["standard"], version = "^0.34.2"}
-sqlalchemy = "^2.0.40"
-pydantic = "^2.11.4"
-pydantic-settings = "^2.9.1"
-passlib = {extras = ["bcrypt"], version = "^1.7.4"}
-python-dotenv = "^1.1.0"
-
+fastapi = "^0.109.2"
+uvicorn = {extras = ["standard"], version = "^0.27.1"}
+sqlmodel = "^0.0.16"  # SQLModel combines SQLAlchemy and Pydantic
+psycopg2-binary = "^2.9.9"  # PostgreSQL adapter
+python-dotenv = "^1.0.1"
+alembic = "^1.13.1"  # For database migrations
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.11.8"
+pytest = "^8.0.0"
+black = "^24.1.1"
+isort = "^5.13.2"
+flake8 = "^7.0.0"
+mypy = "^1.8.0"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
@@ -28,7 +30,7 @@ build-backend = "poetry.core.masonry.api"
 select = ["E", "F", "I", "N", "W", "B", "C4", "UP", "PL", "RUF"]
 ignore = []
 # Assume Python 3.12
-target-version = "py312"
+target-version = ["py312"]
 
 # Allow autofix for all enabled rules
 fixable = ["ALL"]
@@ -61,10 +63,24 @@ exclude = [
 
 # Same as Black
 line-length = 88
+include = '\.pyi?$'
 
-# Allow unused variables when underscore-prefixed
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
 
-[tool.ruff.isort]
-known-third-party = ["fastapi", "pydantic", "sqlalchemy"]
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
 

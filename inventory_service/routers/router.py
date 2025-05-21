@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Depends, Path
+from typing import List
+from datetime import datetime
 
 # DTOs
 from inventory_service.models.dto.channel import ChannelType
@@ -68,23 +70,16 @@ async def get_cross_connection_list(
     description="Retrieves a list of equipment filtered by type and time range."
 )
 async def get_equipment_list(
-    equipment_type: EquipmentType = Path(
-        ...,
-        description="Type of equipment to retrieve"
-    ),
+    equipment_type: EquipmentType,
     time_params: TimeRangeParams = Depends(),
     headers: dict = Depends(validate_service_id("getEquipmentList")),
-    equipment_service: EquipmentService = Depends(),
+    equipment_service: EquipmentService = Depends()
 ):
-    """
-    Retrieve a list of equipment based on type and time range.
-    """
-    return await equipment_service.get_equipment_list(
+    """Get equipment list filtered by type and time range."""
+    return await equipment_service.get_equipment_by_type(
         equipment_type=equipment_type,
         start_time=time_params.start_time,
-        end_time=time_params.end_time,
-        client_msg_ref=headers["client_msg_ref"],
-        correlation_ref=headers["correlation_ref"]
+        end_time=time_params.end_time
     )
 
 @router.get(
