@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import UUID
 from typing import List
 
-from inventory_service.models.RingInfoListResponse import RingInfo, RingRouteInfo
+from inventory_service.models.dto.ring_info import RingInfo, RingRouteInfo
 
 
 class RingService:

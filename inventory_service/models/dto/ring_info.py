@@ -28,7 +28,3 @@ class RingInfo(BaseModel):
     RingBandwidth: str = Field(..., description="Bandwidth of the ring")
     RingType: str = Field(..., description="Type of the ring (e.g., DWDM or SDH)")
     routeList: List[RingRouteInfo] = Field(..., description="List of route segments in the ring")
-
-
-class RingInfoListResponse(BaseModel):
-    items: List[RingInfo] = Field(..., description="List of ring information")

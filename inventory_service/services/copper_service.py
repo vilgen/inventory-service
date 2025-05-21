@@ -1,6 +1,6 @@
 from datetime import datetime
 from uuid import UUID
-from ..models.copperRouteInfo import CopperRouteInfo
+from inventory_service.models.dto.copper_route_info import CopperRouteInfo
 
 
 class CopperRouteService:

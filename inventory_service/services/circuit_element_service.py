@@ -1,9 +1,7 @@
 from datetime import datetime
 from typing import List
 from uuid import UUID
-from inventory_service.models.circuitElement import CircuitElement, CircuitElementSequence
-
-
+from inventory_service.models.dto.circuit_element import CircuitElement, CircuitElementSequence
 class CircuitElementService:
     """
     Service for retrieving circuit element sequence data.

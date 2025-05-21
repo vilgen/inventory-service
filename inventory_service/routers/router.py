@@ -12,12 +12,12 @@ from inventory_service.models.dto.equipment import EquipmentType
 
 from inventory_service.services.channel_route_info_service import ChannelRouteService
 from inventory_service.services.channel_service import ChannelService
-from inventory_service.services.circuitService import CircuitService
+from inventory_service.services.circuit_service import CircuitService
 from inventory_service.services.cross_connection_service import CrossConnectionService
 from inventory_service.services.fttx_service import FTTXService
 from inventory_service.services.equipment_service import EquipmentService
-from inventory_service.services.circuitElementService import CircuitElementService
-from inventory_service.services.RingService import RingService
+from inventory_service.services.circuit_element_service import CircuitElementService
+from inventory_service.services.ring_service import RingService
 
 
 
@@ -35,7 +35,7 @@ from inventory_service.models.dto.equipment import EquipmentType
 
 from inventory_service.models.response.cross_connection_response import CrossConnectionListResponse
 
-from inventory_service.services.copperService import CopperRouteService
+from inventory_service.services.copper_service import CopperRouteService
 from inventory_service.utils.validation import TimeRangeParams, validate_service_id
 router = APIRouter(
     prefix="/api/v1/granite",

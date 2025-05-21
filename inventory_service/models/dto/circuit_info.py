@@ -25,37 +25,7 @@ class CircuitInfo(BaseModel):
     zPortName: str = Field(..., description="Z-side port name")
     zSlotNumber: str = Field(..., description="Z-side slot number")
     zShelfNumber: str = Field(..., description="Z-side shelf number")
-class CircuitInfoListResponse(BaseModel):
-    items: List[CircuitInfo] = Field(..., description="List of circuit information items")
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "items": [
-                    {
-                        "name": "BISH09-BISH09 IP165",
-                        "category": "IP",
-                        "status": "LIVE",
-                        "topology": "Point to Point",
-                        "bandwidth": "2MBPS_E2E",
-                        "aSite": "BSHARR00",
-                        "aNEType": "",
-                        "aNodeName": "",
-                        "aPortBandwith": "2MBPS_E2E",
-                        "aPortName": "LP 16_16",
-                        "aSlotNumber": "1",
-                        "aShelfNumber": "1",
-                        "zSite": "BISH 016:0003",
-                        "zNodeName": "",
-                        "zNEType": "",
-                        "zPortBandwith": "COPPER",
-                        "zPortName": "02",
-                        "zSlotNumber": "1",
-                        "zShelfNumber": "1"
-                    }
-                ]
-            }
-        }
 
 class CircuitType(str, Enum):
     DIA = "DIA"
@@ -68,4 +38,3 @@ class CircuitType(str, Enum):
     CBLS = "CBLS"
     SIP = "SIP"
     DIAL = "DIAL"
-

@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import UUID
 from typing import List
 
-from inventory_service.models.circuitInfo import CircuitInfo
+from inventory_service.models.dto.circuit_info import CircuitInfo
 
 
 class CircuitService:
