@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import List
 from uuid import UUID
 from inventory_service.models.dto.circuit_element import CircuitElement, CircuitElementSequence
+from inventory_service.models.response.circuit_element_response import CircuitElementListResponse
 class CircuitElementService:
     """
     Service for retrieving circuit element sequence data.
@@ -77,10 +78,8 @@ class CircuitElementService:
             zShelfNumber="1",
             connectivity=""
         )
-
-        return [
-            CircuitElement(
+        circuit_element_1 = CircuitElement(
                 circuitId=circuit_id,
                 sequence=[mock_sequence_1, mock_sequence_2]
-            )
-        ]
+            )            
+        return CircuitElementListResponse(root=[circuit_element_1])

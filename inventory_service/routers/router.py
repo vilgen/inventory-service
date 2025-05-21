@@ -1,42 +1,37 @@
 from fastapi import APIRouter, Depends, Path
 
-from inventory_service.models.response.channel_route_info_response import ChannelRouteInfoListResponse
-from inventory_service.models.response.fttx_response import FTTHLinkInfoListResponse
-from inventory_service.models.response.equipment_response import EquipmentListResponse
-from inventory_service.models.response.channel_response import ChannelListResponse
-from inventory_service.models.response.cross_connection_response import CrossConnectionListResponse
+# DTOs
 from inventory_service.models.dto.channel import ChannelType
+from inventory_service.models.dto.circuit_info import CircuitType
 from inventory_service.models.dto.cross_connection import CrossConnectionType
 from inventory_service.models.dto.equipment import EquipmentType
+from inventory_service.models.dto.ring_info import RingType
 
+# Response Models
+from inventory_service.models.response.channel_response import ChannelListResponse
+from inventory_service.models.response.channel_route_info_response import ChannelRouteInfoListResponse
+from inventory_service.models.response.circuit_element_response import CircuitElementListResponse
+from inventory_service.models.response.circuit_info_response import CircuitInfoListResponse
+from inventory_service.models.response.copper_route_response import CopperRouteInfoListResponse
+from inventory_service.models.response.cross_connection_response import CrossConnectionListResponse
+from inventory_service.models.response.equipment_response import EquipmentListResponse
+from inventory_service.models.response.fttx_response import FTTHLinkInfoListResponse
+from inventory_service.models.response.ring_info_response import RingInfoListResponse
 
+# Services
 from inventory_service.services.channel_route_info_service import ChannelRouteService
 from inventory_service.services.channel_service import ChannelService
-from inventory_service.services.circuit_service import CircuitService
-from inventory_service.services.cross_connection_service import CrossConnectionService
-from inventory_service.services.fttx_service import FTTXService
-from inventory_service.services.equipment_service import EquipmentService
 from inventory_service.services.circuit_element_service import CircuitElementService
+from inventory_service.services.circuit_service import CircuitService
+from inventory_service.services.copper_service import CopperRouteService
+from inventory_service.services.cross_connection_service import CrossConnectionService
+from inventory_service.services.equipment_service import EquipmentService
+from inventory_service.services.fttx_service import FTTXService
 from inventory_service.services.ring_service import RingService
 
-
-
-from inventory_service.models.RingInfoListResponse import RingInfoListResponse, RingType
-from inventory_service.models.response.channel_route_info_response import ChannelRouteInfoListResponse
-from inventory_service.models.circuitElement import CircuitElementListResponse
-from inventory_service.models.circuitInfo import CircuitInfoListResponse, CircuitType
-from inventory_service.models.copperRouteInfo import CopperRouteInfoListResponse
-from inventory_service.models.response.fttx_response import FTTHLinkInfoListResponse
-from inventory_service.models.response.channel_response import ChannelListResponse
-from inventory_service.models.dto.channel import ChannelType
-from inventory_service.models.dto.cross_connection import CrossConnectionType
-from inventory_service.models.dto.equipment import EquipmentType
-
-
-from inventory_service.models.response.cross_connection_response import CrossConnectionListResponse
-
-from inventory_service.services.copper_service import CopperRouteService
+# Utils
 from inventory_service.utils.validation import TimeRangeParams, validate_service_id
+
 router = APIRouter(
     prefix="/api/v1/granite",
     tags=["Inventory Services"],
@@ -189,7 +184,7 @@ async def get_copper_route_list(
         client_msg_ref=headers["client_msg_ref"],
         correlation_ref=headers["correlation_ref"]
     )
-    return {"items": routes}
+    return  routes
 @router.get(
     "/circuit/{circuitType}",
     response_model=CircuitInfoListResponse,
@@ -209,7 +204,7 @@ async def get_circuit_data(
         client_msg_ref=headers["client_msg_ref"],
         correlation_ref=headers["correlation_ref"]
     )
-    return {"items": circuits}
+    return circuits
 
 @router.get(
     "/circuitElement",
@@ -230,7 +225,7 @@ async def get_circuit_element_list(
         client_msg_ref=headers["client_msg_ref"],
         correlation_ref=headers["correlation_ref"]
     )
-    return {"items": data}
+    return data
 
 @router.get(
     "/ring",
@@ -251,4 +246,4 @@ async def get_ring_list(
         client_msg_ref=headers["client_msg_ref"],
         correlation_ref=headers["correlation_ref"]
     )
-    return {"items": rings}
+    return rings

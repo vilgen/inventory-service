@@ -3,6 +3,7 @@ from uuid import UUID
 from typing import List
 
 from inventory_service.models.dto.circuit_info import CircuitInfo
+from inventory_service.models.response.circuit_info_response import CircuitInfoListResponse
 
 
 class CircuitService:
@@ -55,4 +56,4 @@ class CircuitService:
             zShelfNumber="1"
         )
 
-        return [mock_circuit]
+        return CircuitInfoListResponse(root=[mock_circuit])

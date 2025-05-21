@@ -1,6 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 from inventory_service.models.dto.copper_route_info import CopperRouteInfo
+from inventory_service.models.response.copper_route_response import CopperRouteInfoListResponse
 
 
 class CopperRouteService:
@@ -99,4 +100,4 @@ class CopperRouteService:
             telephoneNumber="138110554"
         )
 
-        return [mock_route]
+        return CopperRouteInfoListResponse(root=[mock_route])

@@ -3,6 +3,7 @@ from uuid import UUID
 from typing import List
 
 from inventory_service.models.dto.ring_info import RingInfo, RingRouteInfo
+from inventory_service.models.response.ring_info_response import RingInfoListResponse
 
 
 class RingService:
@@ -44,8 +45,8 @@ class RingService:
             zDdfOdfInfo="00.302.06/02/10/39"
         )
 
-        return [
-            RingInfo(
+        
+        ring_info=  RingInfo(
                 RingName="RING-123",
                 termination="SITE-Z1",
                 RingStatus="LIVE",
@@ -53,4 +54,5 @@ class RingService:
                 RingType=ring_type,
                 routeList=[route_1, route_2]
             )
-        ]
+        return RingInfoListResponse(root=[ring_info])
+        
