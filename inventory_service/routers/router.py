@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Path
+from fastapi import APIRouter, Depends, Path, Query
 
 # DTOs
 from inventory_service.models.dto.channel import ChannelType
@@ -65,12 +65,22 @@ async def get_cross_connection_list(
     "/equipment/{equipment_type}",
     response_model=EquipmentListResponse,
     summary="Get Equipment List",
-    description="Retrieves a list of equipment filtered by type and time range."
+    description="""
+    Retrieves a list of equipment filtered by type and time range.
+    
+    If use_mapping=true (default), Autin equipment types will be mapped to
+    corresponding Granite equipment types according to the built-in mapping.
+    For example, DWDM will return equipment of both DWDM and OTN types.
+    """
 )
 async def get_equipment_list(
     equipment_type: EquipmentType = Path(
         ...,
-        description="Type of equipment to retrieve"
+        description="Type of equipment to retrieve (Autin category)"
+    ),
+    use_mapping: bool = Query(
+        True, 
+        description="Whether to apply Autin to Granite equipment mapping"
     ),
     time_params: TimeRangeParams = Depends(),
     headers: dict = Depends(validate_service_id("getEquipmentList")),
@@ -78,13 +88,17 @@ async def get_equipment_list(
 ):
     """
     Retrieve a list of equipment based on type and time range.
+    
+    If use_mapping is True, the Autin equipment type will be mapped to its
+    corresponding Granite equipment types according to the built-in mapping.
     """
-    return await equipment_service.get_equipment_list(
+    return await equipment_service.get_equipment_list_with_mapping(
         equipment_type=equipment_type,
         start_time=time_params.start_time,
         end_time=time_params.end_time,
         client_msg_ref=headers["client_msg_ref"],
-        correlation_ref=headers["correlation_ref"]
+        correlation_ref=headers["correlation_ref"],
+        use_mapping=use_mapping
     )
 
 @router.get(

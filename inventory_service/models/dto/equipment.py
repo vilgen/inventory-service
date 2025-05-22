@@ -1,42 +1,58 @@
 from pydantic import BaseModel, Field
 from enum import Enum
+from typing import Dict, List
+
+# Define the mappings at module level
+GRANITE_MAPPINGS: Dict[str, List[str]] = {
+    "DWDM": ["DWDM", "OTN"],
+    "SDH": ["SDH", "OPTICAL"],
+    "OLT": ["FTTM-MDU", "FTTH-OLT", "FTTH-ONT"],
+    "UPE": ["MBH", "ETHERNET ACCESS"],
+    "DSLAM": ["DSLAM"],
+    "AGG": ["ETHERNET AGGREGATOR"],
+    "MSAN": ["MSAN"],
+    "SWITCH": ["IP SWITCH"],
+    "PE": ["PE ROUTER"],
+    "RAN": ["RAN"],
+    "MW": ["MW LINK", "MW NODE"]
+}
 
 class EquipmentType(str, Enum):
+    """
+    Enum representing telecommunications equipment types with mapping between
+    Autin categorization system and Granite categorization system.
+    """
+    # Define simple string values for str inheritance
     DWDM = "DWDM"
-    OTN = "OTN"
     SDH = "SDH"
-    OPTICAL = "OPTICAL"
-
-    # Fiber Access Equipment
     OLT = "OLT"
-    FTTM_MDU = "FTTM-MDU"
-    FTTH_OLT = "FTTH-OLT"
-    FTTH_ONT = "FTTH-ONT"
-
-    # Access Equipment
     UPE = "UPE"
-    MBH = "MBH"
-    ETHERNET_ACCESS = "ETHERNET ACCESS"
     DSLAM = "DSLAM"
-    DSLAM_AGG = "DSLAM AGG"
-    ETHERNET_AGGREGATOR = "ETHERNET AGGREGATOR"
+    AGG = "AGG"
     MSAN = "MSAN"
-
-    # Switching Equipment
     SWITCH = "SWITCH"
-    IP_SWITCH = "IP SWITCH"
-
-    # Routing Equipment
     PE = "PE"
-    PE_ROUTER = "PE ROUTER"
-
-    # Radio Access Network Equipment
     RAN = "RAN"
-
-    # Microwave Equipment
     MW = "MW"
-    MW_LINK = "MW LINK"
-    MW_NODE = "MW NODE"
+    
+    @property
+    def autin_name(self) -> str:
+        """Return the Autin name."""
+        return self.value
+    
+    @property
+    def granite_names(self) -> List[str]:
+        """Return the corresponding Granite equipment type names."""
+        # Access the module-level mapping
+        return GRANITE_MAPPINGS[self.value]
+    
+    @classmethod
+    def from_string(cls, value: str) -> 'EquipmentType':
+        """Look up an enum member by its Autin name."""
+        try:
+            return cls(value)
+        except ValueError:
+            raise ValueError(f"'{value}' is not a valid {cls.__name__}")
 
 
 class Port(BaseModel):
