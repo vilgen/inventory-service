@@ -1,14 +1,12 @@
-from typing import List
 from pydantic import Field, RootModel
 from inventory_service.models.dto.fttx import FTTHLinkInfo
-
 
 class FTTHLinkInfoListResponse(RootModel):
     """
     Model representing a list of FTTH link service items.
     Returns a direct array of FTTHLinkInfo objects.
     """
-    root: List[FTTHLinkInfo] = Field(default_factory=list, description="List of FTTH link items")
+    root: list[FTTHLinkInfo] = Field(default_factory=list, description="List of FTTH link items")
     
     class Config:
         schema_extra = {

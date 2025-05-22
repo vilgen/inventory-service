@@ -1,9 +1,8 @@
-from typing import List
-from inventory_service.models.dto.circuit_info import CircuitInfo
+from inventory_service.models.dto.circuit import Circuit
 from pydantic import Field, RootModel
 
-class CircuitInfoListResponse(RootModel):
-    root: List[CircuitInfo] = Field(..., description="List of circuit information items")
+class CircuitListResponse(RootModel):
+    root: list[Circuit] = Field(..., description="List of circuit information items")
 
     class Config:
         schema_extra = {

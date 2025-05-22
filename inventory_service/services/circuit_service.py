@@ -2,8 +2,8 @@ from datetime import datetime
 from uuid import UUID
 from typing import List
 
-from inventory_service.models.dto.circuit_info import CircuitInfo
-from inventory_service.models.response.circuit_info_response import CircuitInfoListResponse
+from inventory_service.models.dto.circuit import Circuit
+from inventory_service.models.response.circuit_response import CircuitListResponse
 
 
 class CircuitService:
@@ -18,7 +18,7 @@ class CircuitService:
         end_time: datetime,
         client_msg_ref: UUID,
         correlation_ref: UUID
-    ) -> List[CircuitInfo]:
+    ) -> List[Circuit]:
         """
         Fetch circuit data filtered by circuit type and time range.
 
@@ -34,7 +34,7 @@ class CircuitService:
         """
 
         # Mock data - In real usage, fetch from DB or external system
-        mock_circuit = CircuitInfo(
+        mock_circuit = Circuit(
             name="BISH09-BISH09 IP165",
             category=circuit_type,
             status="LIVE",
@@ -56,4 +56,4 @@ class CircuitService:
             zShelfNumber="1"
         )
 
-        return CircuitInfoListResponse(root=[mock_circuit])
+        return CircuitListResponse(root=[mock_circuit])

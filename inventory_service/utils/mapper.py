@@ -1,5 +1,9 @@
+from inventory_service.models.dto.copper import Copper
+from inventory_service.schemas.models.copper_service import InventoryCopperService
 from inventory_service.schemas.models.fttx_service import InventoryFttxService
 from inventory_service.models.dto.fttx import FTTHLinkInfo
+from inventory_service.schemas.models.cross_connection import InventoryCrossConnection
+from inventory_service.models.dto.cross_connection import CrossConnection
 
 class Mapper:
     @staticmethod
@@ -53,4 +57,110 @@ class Mapper:
             circuitPathName=fttx_service.circuit_path_name,
             EBUCircuitID=fttx_service.ebu_circuit_id,
             telephoneNumber=fttx_service.telephone_number
+        )
+    
+    @staticmethod
+    def map_to_copper_service_info(copper_service: InventoryCopperService) -> Copper:
+        """Map InventoryCopperService to Copper."""
+        return Copper(
+            pathname=copper_service.path_name,
+            category=copper_service.category,
+            
+            # Voice equipment fields
+            voiceEquipmentType=copper_service.voice_equipment_type,
+            voiceExchangeID=copper_service.voice_exchange_id,
+            voiceEquipmentCLLI=copper_service.voice_equipment_clli,
+            voiceSlot=copper_service.voice_slot,
+            voicePort=copper_service.voice_port,
+            voiceAccessPortID=copper_service.voice_access_port_id,
+            voiceEN=copper_service.voice_en,
+            voiceNodeName=copper_service.voice_node_name,
+            voiceNodeUpSlot=copper_service.voice_node_up_slot,
+            voiceNodeUpPort=copper_service.voice_node_up_port,
+            voiceNodeIPAddress=copper_service.voice_node_ip_address,
+            voiceV5ID=copper_service.voice_v5_id,
+            voiceSwitchID=copper_service.voice_switch_id,
+            voiceHostExchangeSwitch=copper_service.voice_host_exchange_switch,
+            voiceSwitchType=copper_service.voice_switch_type,
+            voiceSwitchName=copper_service.voice_switch_name,
+            voiceNMSJVCode=copper_service.voice_nms_jv_code,
+            voiceSwitchModel=copper_service.voice_switch_model,
+            voiceAggName=copper_service.voice_agg_name,
+            voiceAggCLLI=copper_service.voice_agg_clli,
+            voiceAggIP=copper_service.voice_agg_ip,
+            voiceAggPrimaryPort=copper_service.voice_agg_primary_port,
+            voiceAggStandbyPort=copper_service.voice_agg_standby_port,
+            
+            # Data equipment fields
+            dataEquipmentType=copper_service.data_equipment_type,
+            dataNodeName=copper_service.data_node_name,
+            dataNodeUpSlot=copper_service.data_node_up_slot,
+            dataNodeUpPort=copper_service.data_node_up_port,
+            dataNodeIPAddress=copper_service.data_node_ip_address,
+            dataEquipmentCLLI=copper_service.data_equipment_clli,
+            dataSlot=copper_service.data_slot,
+            dataPort=copper_service.data_port,
+            dataAccessPortID=copper_service.data_access_port_id,
+            dataEN=copper_service.data_en,
+            dataEL=copper_service.data_el,
+            
+            # Copper cabinet fields
+            copperCabinet=copper_service.copper_cabinet.split(",") if copper_service.copper_cabinet else [],
+            cabinetStripPairDPPair=copper_service.cabinet_strip_pair_dp_pair,
+            primaryStripCable=copper_service.primary_strip_cable,
+            secondaryStripCable=copper_service.secondary_strip_cable,
+            
+            # Data switch fields
+            dataV5ID=copper_service.data_v5_id,
+            dataExchangeID=copper_service.data_exchange_id,
+            dataHostExchangeSwitch=copper_service.data_host_exchange_switch,
+            dataSwitchID=copper_service.data_switch_id,
+            dataSwitchType=copper_service.data_switch_type,
+            dataSwitchName=copper_service.data_switch_name,
+            dataNMSJVCode=copper_service.data_nms_jv_code,
+            dataAggName=copper_service.data_agg_name,
+            dataAggCLLI=copper_service.data_agg_clli,
+            dataAggIP=copper_service.data_agg_ip,
+            dataAggPrimaryPort=copper_service.data_agg_primary_port,
+            dataAggStandbyPort=copper_service.data_agg_standby_port,
+            
+            # Plate fields
+            copperPlateID=copper_service.copper_plate_id,
+            plateLatitude=copper_service.plate_latitude,
+            plateIDLongitude=copper_service.plate_id_longitude,
+            domainName=copper_service.domain_name,
+            plateDistrict=copper_service.plate_district,
+            plateRegion=copper_service.plate_region,
+            plateExchange=copper_service.plate_exchange,
+            treatmentPriority=copper_service.treatment_priority,
+            
+            # MDF fields
+            MDFName=copper_service.mdf_name,
+            MDFSlot=copper_service.mdf_slot,
+            MDFPort=copper_service.mdf_port,
+            classA=copper_service.class_a,
+            telephoneNumber=copper_service.telephone_number
+        )
+
+    @staticmethod
+    def map_to_cross_connection(cross_connection: InventoryCrossConnection) -> CrossConnection:
+        """Map InventoryCrossConnection to CrossConnection."""
+        return CrossConnection(
+            # A site fields
+            aSiteEquipmentName=cross_connection.a_site_equipment_name,
+            aSiteEquipmentType=cross_connection.a_site_equipment_type,
+            aSiteEquipmentVendor=cross_connection.a_site_equipment_vendor,
+            aSiteCTPId=cross_connection.a_site_ctp_id,
+            aSiteShelf=cross_connection.a_site_shelf,
+            aSiteSlot=cross_connection.a_site_slot,
+            aSitePort=cross_connection.a_site_port,
+            
+            # Z site fields
+            zSiteEquipmentName=cross_connection.z_site_equipment_name,
+            zSiteEquipmentType=cross_connection.z_site_equipment_type,
+            zSiteEquipmentVendor=cross_connection.z_site_equipment_vendor,
+            zSiteCTPId=cross_connection.z_site_ctp_id,
+            zSiteShelf=cross_connection.z_site_shelf,
+            zSiteSlot=cross_connection.z_site_slot,
+            zSitePort=cross_connection.z_site_port
         )

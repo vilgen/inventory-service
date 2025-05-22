@@ -1,11 +1,10 @@
 
-from typing import List
 from pydantic import Field, RootModel
 from inventory_service.models.dto.circuit_element import CircuitElement
 
 
 class CircuitElementListResponse(RootModel):
-    root: List[CircuitElement] = Field(..., description="List of circuit element sequences")
+    root: list[CircuitElement] = Field(..., description="List of circuit element sequences")
 
     class Config:
         schema_extra = {

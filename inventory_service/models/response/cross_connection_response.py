@@ -1,9 +1,8 @@
 from pydantic import RootModel, Field
-from typing import List
 from inventory_service.models.dto.cross_connection import CrossConnection
 
 class CrossConnectionListResponse(RootModel):
-    root: List[CrossConnection] = Field(default_factory=list, description="List of equipment items")
+    root: list[CrossConnection] = Field(default_factory=list, description="List of equipment items")
     class Config:
         schema_extra = {
             "example":

@@ -1,7 +1,7 @@
 from typing import Optional, List
 from pydantic import BaseModel, Field
 
-class CopperRouteInfo(BaseModel):
+class Copper(BaseModel):
     pathname: str = Field(..., description="Path name of the copper link")
     category: str = Field(..., description="Category of the route")
     
@@ -10,7 +10,7 @@ class CopperRouteInfo(BaseModel):
     voiceEquipmentCLLI: str = Field(..., description="CLLI of the voice equipment")
     voiceSlot: str = Field(..., description="Slot of the voice equipment")
     voicePort: str = Field(..., description="Port of the voice equipment")
-    voiceAccessPortID: str = Field(..., description="Access port ID of the voice equipment")
+    voiceAccessPortID: Optional[str] = Field(None, description="Access port ID of the voice equipment")
     voiceEN: str = Field(..., description="EN (Equipment Number) of the voice equipment")
     voiceNodeName: str = Field(..., description="Node name of the voice equipment")
     voiceNodeUpSlot: Optional[str] = Field(None, description="Up slot of the voice node")

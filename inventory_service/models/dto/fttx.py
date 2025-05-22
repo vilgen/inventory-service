@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 
 class FTTHLinkInfo(BaseModel):
     """
-    Model representing a single FTTH link service's detailed information.
+    Model representing a single FTTH link service’s detailed information.
     """
     serviceID: str = Field(..., description="Unique identifier of the service")
     serviceType: str = Field(..., description="Type of the service")

@@ -1,10 +1,9 @@
-from typing import List
 from pydantic import Field, RootModel
-from inventory_service.models.dto.copper_route_info import CopperRouteInfo
+from inventory_service.models.dto.copper import Copper
 
 
-class CopperRouteInfoListResponse(RootModel):
-    root: List[CopperRouteInfo] = Field(default_factory=list, description="List of copper route information items")
+class CopperListResponse(RootModel):
+    root: list[Copper] = Field(default_factory=list, description="List of copper service information items")
 
     class Config:
         schema_extra = {

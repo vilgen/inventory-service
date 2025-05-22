@@ -1,11 +1,9 @@
 from inventory_service.models.dto.equipment import Equipment
 from pydantic import RootModel, Field
-from typing import List
-
 
 class EquipmentListResponse(RootModel):
 
-    root: List[Equipment] = Field(default_factory=list, description="List of equipment items")
+    root: list[Equipment] = Field(default_factory=list, description="List of equipment items")
 
     class Config:
         schema_extra = {

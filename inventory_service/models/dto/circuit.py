@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 
-class CircuitInfo(BaseModel):
+class Circuit(BaseModel):
     name: str = Field(..., description="Name of the circuit")
     category: str = Field(..., description="Circuit type/category (e.g. IP, DIA, etc.)")
     status: str = Field(..., description="Status of the circuit (e.g. LIVE)")

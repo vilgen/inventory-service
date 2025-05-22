@@ -31,4 +31,4 @@ async def on_startup():
     # Create database tables
     create_db_and_tables()
     # Initialize database with data
-    init_db()
+    # init_db()
