@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from inventory_service.config.database import create_db_and_tables
+from inventory_service.config.database import create_db_and_tables, init_db
 from inventory_service.middleware.custom_response_header import AddCustomHeaderMiddleware
 from inventory_service.routers.router import router
 
@@ -27,5 +27,8 @@ app.add_middleware(AddCustomHeaderMiddleware)
 app.include_router(router)
 
 @app.on_event("startup")
-def on_startup():
+async def on_startup():
+    # Create database tables
     create_db_and_tables()
+    # Initialize database with data
+    init_db()

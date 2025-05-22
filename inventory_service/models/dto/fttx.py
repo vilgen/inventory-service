@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 
 class FTTHLinkInfo(BaseModel):
     """
-    Model representing a single FTTH link service’s detailed information.
+    Model representing a single FTTH link service's detailed information.
     """
     serviceID: str = Field(..., description="Unique identifier of the service")
     serviceType: str = Field(..., description="Type of the service")
@@ -51,7 +51,7 @@ class FTTHLinkInfo(BaseModel):
     ONTUpStreamBandwidth: Optional[str] = Field(None, description="Upstream bandwidth of the ONT")
     businessUnit: str = Field(..., description="Business unit responsible for the service")
     circuitPathName: str = Field(..., description="Name of the circuit path")
-    EBUCircuitID: str = Field(..., description="EBU circuit identifier")
+    EBUCircuitID: Optional[str] = Field(None, description="EBU circuit identifier")
     telephoneNumber: str = Field(..., description="Associated telephone number")
 
     class Config:

@@ -7,7 +7,7 @@ from fastapi import Depends
 from inventory_service.models.dto.fttx import FTTHLinkInfo
 from inventory_service.models.response.fttx_response import FTTHLinkInfoListResponse
 from inventory_service.schemas.models.fttx_service import InventoryFttxService
-from inventory_service.services.base import BaseService
+from inventory_service.services.base_service import BaseService
 from inventory_service.utils.mapper import Mapper
 from ..config.database import get_session
 
