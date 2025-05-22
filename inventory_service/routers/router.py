@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Path
-from typing import List
+from typing import List, Optional
 from datetime import datetime
 
 # DTOs
@@ -28,7 +28,7 @@ from inventory_service.services.circuit_service import CircuitService
 from inventory_service.services.copper_service import CopperRouteService
 from inventory_service.services.cross_connection_service import CrossConnectionService
 from inventory_service.services.equipment_service import EquipmentService
-from inventory_service.services.fttx_service import FTTXService
+from inventory_service.services.fttx_service import FttxService
 from inventory_service.services.ring_service import RingService
 
 # Utils
@@ -144,19 +144,16 @@ async def get_channel_route_info(
 async def get_fttx_service(
     time_params: TimeRangeParams = Depends(),
     headers: dict = Depends(validate_service_id("getFTTXService")),
-    fttx_service: FTTXService = Depends(),
+    fttx_service: FttxService = Depends(),
 ):
     """
     Retrieve FTTX service information within the specified time range.
     """
-    return await fttx_service.get_fttx_service_info(
-        start_time=time_params.start_time,
-        end_time=time_params.end_time,
-        client_msg_ref=headers["client_msg_ref"],
-        correlation_ref=headers["correlation_ref"]
+    return await fttx_service.get_by_last_mod_ts(
+        start_datetime=time_params.start_time,
+        end_datetime=time_params.end_time,
     )
     
-    return {"items": fttx_links}
 
 @router.get(
     "/copper/{copper_route_type}",

@@ -1,0 +1,56 @@
+from inventory_service.schemas.models.fttx_service import InventoryFttxService
+from inventory_service.models.dto.fttx import FTTHLinkInfo
+
+class Mapper:
+    @staticmethod
+    def map_to_ftth_link_info(fttx_service: InventoryFttxService) -> FTTHLinkInfo:
+        """Map InventoryFttxService to FTTHLinkInfo."""
+        return FTTHLinkInfo(
+            serviceID=fttx_service.service_id,
+            serviceType=fttx_service.service_type,
+            serviceStatus=fttx_service.service_status,
+            TBNo=fttx_service.tb_no,
+            TBCLLI=fttx_service.tb_clli,
+            TBLattitude=fttx_service.tb_lattitude,
+            TBLongitude=fttx_service.tb_longitude,
+            TBPort=fttx_service.tb_port,
+            TBOutputPort=fttx_service.tb_output_port,
+            TBFreePorts=fttx_service.tb_free_ports.split(",") if fttx_service.tb_free_ports else [],
+            TBUtilizedPorts=fttx_service.tb_utilized_ports.split(",") if fttx_service.tb_utilized_ports else [],
+            FDTNo=fttx_service.fdt_no,
+            FDTSPlitterNo=fttx_service.fdt_splitter_no,
+            FDTCLLI=fttx_service.fdt_clli,
+            FDTSPlitterOutputPort=fttx_service.fdt_splitter_output_port,
+            FDTLattitude=fttx_service.fdt_lattitude,
+            FDTLongitude=fttx_service.fdt_longitude,
+            OLTName=fttx_service.olt_name,
+            OLTModel=fttx_service.olt_model,
+            OLTSLot=fttx_service.olt_slot,
+            OLTUplinkPort=fttx_service.olt_uplink_port,
+            OLTPONPort=fttx_service.olt_pon_port,
+            OLTIP=fttx_service.olt_ip,
+            OLTAggregator=fttx_service.olt_aggregator,
+            OLTAggregatorIP=fttx_service.olt_aggregator_ip,
+            OLTAggregatorPrimaryPort=fttx_service.olt_aggregator_primary_port,
+            OLTAggregatorStandbyPort=fttx_service.olt_aggregator_standby_port,
+            OLTDistrict=fttx_service.olt_district,
+            OLTRegion=fttx_service.olt_region,
+            OLTVendor=fttx_service.olt_vendor,
+            OLTUpPort=fttx_service.olt_up_port,
+            OLTSite=fttx_service.olt_site,
+            ODFID=fttx_service.odf_id,
+            ODFInputPort=fttx_service.odf_input_port,
+            ODFOutputPort=fttx_service.odf_output_port,
+            ONTSerialNumber=fttx_service.ont_serial_number,
+            ONTModel=fttx_service.ont_model,
+            ONTLastModifyDate=fttx_service.ont_last_modify_date.isoformat() if fttx_service.ont_last_modify_date else "",
+            ONTID=fttx_service.ont_id,
+            ONTDistrict=fttx_service.ont_district,
+            ONTRegion=fttx_service.ont_region,
+            ONTDownStreamBandwidth=fttx_service.ont_downstream_bandwidth,
+            ONTUpStreamBandwidth=fttx_service.ont_upstream_bandwidth,
+            businessUnit=fttx_service.business_unit,
+            circuitPathName=fttx_service.circuit_path_name,
+            EBUCircuitID=fttx_service.ebu_circuit_id,
+            telephoneNumber=fttx_service.telephone_number
+        )

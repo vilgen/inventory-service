@@ -1,15 +1,40 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 from uuid import UUID
+from sqlmodel import Session
+from fastapi import Depends
 
 from inventory_service.models.dto.fttx import FTTHLinkInfo
 from inventory_service.models.response.fttx_response import FTTHLinkInfoListResponse
+from inventory_service.schemas.models.fttx_service import InventoryFttxService
+from inventory_service.services.base import BaseService
+from inventory_service.utils.mapper import Mapper
+from ..config.database import get_session
 
-class FTTXService:
-    """
-    Service for FTTX-related operations.
-    """
+class FttxService(BaseService[InventoryFttxService]):
+    """Service class for FTTX inventory operations."""
     
+    def __init__(self, session: Session = Depends(get_session)):
+        super().__init__(InventoryFttxService, session)
+
+    async def get_by_last_mod_ts(
+        self,
+        start_datetime: datetime,
+        end_datetime: datetime
+    ) -> FTTHLinkInfoListResponse:
+        """Get FTTX services by last modification timestamp range and convert to FTTHLinkInfoListResponse."""
+        fttx_services = await self.get_by_datetime_range(
+            start_datetime=start_datetime,
+            end_datetime=end_datetime,
+            timestamp_field="last_mod_ts"
+        )
+        
+        # Map each FTTX service to FTTHLinkInfo using the Mapper
+        ftth_links = [Mapper.map_to_ftth_link_info(service) for service in fttx_services]
+        
+        # Create and return the response
+        return FTTHLinkInfoListResponse(root=ftth_links)
+
     async def get_fttx_service_info(
         self,
         start_time: datetime,

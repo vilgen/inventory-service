@@ -1,6 +1,7 @@
 from typing import TypeVar, Generic, Type, Optional
-from sqlmodel import SQLModel, Session
+from sqlmodel import SQLModel, Session, select
 from fastapi import Depends
+from datetime import datetime
 from ..config.database import get_session
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
@@ -19,6 +20,33 @@ class BaseService(Generic[ModelType]):
     async def get_all(self) -> list[ModelType]:
         """Get all records."""
         return self.session.query(self.model).all()
+
+    async def get_by_datetime_range(
+        self,
+        start_datetime: datetime,
+        end_datetime: datetime,
+        timestamp_field: str = "last_mod_ts"
+    ) -> list[ModelType]:
+        """
+        Get records within a datetime range.
+        
+        Args:
+            start_datetime: Start of the datetime range (inclusive)
+            end_datetime: End of the datetime range (inclusive)
+            timestamp_field: Name of the datetime field to filter on (default: 'last_mod_ts')
+            
+        Returns:
+            List of records that fall within the datetime range
+        """
+        # Create a select statement
+        stmt = select(self.model).where(
+            getattr(self.model, timestamp_field) >= start_datetime,
+            getattr(self.model, timestamp_field) < end_datetime
+        )
+        
+        # Execute the query
+        result = self.session.exec(stmt)
+        return result.all()
 
     async def create(self, obj_in: ModelType) -> ModelType:
         """Create a new record."""
