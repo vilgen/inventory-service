@@ -7,9 +7,9 @@ class InventoryCircuitElement(SQLModel, table=True):
     
     __tablename__ = "inventory_circuit_element"
 
-    # Primary key fields
-    circuit_id: str = Field(max_length=100, primary_key=True)
-    sequence_id: str = Field(max_length=500, primary_key=True)
+    # Primary key field    
+    circuit_id: str = Field(max_length=100, index=True, primary_key=True)
+    sequence_id: str = Field(max_length=500, index=True, primary_key=True)
 
     # Other fields
     category: Optional[str] = Field(max_length=30, default=None)

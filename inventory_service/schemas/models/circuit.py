@@ -3,6 +3,7 @@ from .base import SQLModel, Field, Optional, datetime
 class InventoryCircuit(SQLModel, table=True):
     __tablename__ = "inventory_circuit"
 
+    # Primary key field
     name: str = Field(max_length=100, primary_key=True)
     revision: Optional[int] = None
     category: str = Field(max_length=30)

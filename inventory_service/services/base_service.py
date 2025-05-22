@@ -1,11 +1,13 @@
-from typing import TypeVar, Generic, Type, Optional
+from typing import TypeVar, Generic, Type, Optional, Any
 from inventory_service.models.dto.cross_connection import CrossConnectionType
 from sqlmodel import SQLModel, Session, select
 from fastapi import Depends
 from datetime import datetime
+from enum import Enum
 from ..config.database import get_session
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
+EnumType = TypeVar("EnumType", bound=Enum)
 
 class BaseService(Generic[ModelType]):
     """Base class for all services with session management."""
@@ -53,20 +55,22 @@ class BaseService(Generic[ModelType]):
         self,
         start_datetime: datetime,
         end_datetime: datetime,
+        type: EnumType,
         timestamp_field: str = "last_mod_ts",
-        type: CrossConnectionType = CrossConnectionType.OLT_PE,
-        type_field: str = "service_type"
+        type_field: str = "type"
     ) -> list[ModelType]:
         """
-        Get records within a datetime range.
+        Get records within a datetime range and filtered by type.
         
         Args:
             start_datetime: Start of the datetime range (inclusive)
             end_datetime: End of the datetime range (inclusive)
+            type: Enum value to filter by
             timestamp_field: Name of the datetime field to filter on (default: 'last_mod_ts')
+            type_field: Name of the type field to filter on (default: 'type')
             
         Returns:
-            List of records that fall within the datetime range
+            List of records that fall within the datetime range and match the type
         """
         # Create a select statement
         stmt = select(self.model).where(
@@ -76,6 +80,17 @@ class BaseService(Generic[ModelType]):
         )
         
         # Execute the query
+        result = self.session.exec(stmt)
+        return result.all()
+    
+    async def get_by_id_str(
+        self,
+        id: str,
+        id_field: str = "id"
+    ) -> list[ModelType]:
+        stmt = select(self.model).where(
+            getattr(self.model, id_field) == id,
+        )
         result = self.session.exec(stmt)
         return result.all()
 

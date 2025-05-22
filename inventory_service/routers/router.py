@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Path
+from fastapi import APIRouter, Depends, Path, Query
 from typing import List, Optional
 from datetime import datetime
 
@@ -110,41 +110,32 @@ async def get_copper_service_list(
 @router.get(
     "/circuit/{circuitType}",
     response_model=CircuitListResponse,
-    summary="Get Circuit Data",
+    summary="Get Circuit List",
     description="Returns created or updated circuit data for the given circuit type between startTime and endTime."
 )
-async def get_circuit_data(
+async def get_circuit_list(
     circuitType: CircuitType = Path(..., description="Type of circuit to retrieve"),
     time_params: TimeRangeParams = Depends(),
-    headers: dict = Depends(validate_service_id("getCircuitData")),
+    headers: dict = Depends(validate_service_id("getCircuitList")),
     circuit_service: CircuitService = Depends(),
 ):
-    circuits = await circuit_service.get_circuits(
-        circuit_type=circuitType.value,
-        start_time=time_params.start_time,
-        end_time=time_params.end_time,
-        client_msg_ref=headers["client_msg_ref"],
-        correlation_ref=headers["correlation_ref"]
+    return await circuit_service.get_by_last_mod_ts_and_type(
+        start_datetime=time_params.start_time,
+        end_datetime=time_params.end_time,
+        type=circuitType
     )
-    return circuits
 
 @router.get(
     "/circuitElement",
     response_model=CircuitElementListResponse,
     summary="Get Circuit Element List",
-    description="Returns circuit element sequences for the given circuit ID within a time range."
+    description="Returns circuit element sequences for the given circuit ID."
 )
 async def get_circuit_element_list(
-    circuitId: str = Path(..., description="Circuit name returned from circuit list response"),
-    time_params: TimeRangeParams = Depends(),
+    circuitId: str = Query(..., description="Circuit ID to fetch elements for"),
     headers: dict = Depends(validate_service_id("getCircuitElementList")),
     circuit_element_service: CircuitElementService = Depends(),
 ):
-    data = await circuit_element_service.get_circuit_elements(
+    return await circuit_element_service.get_by_circuit_id(
         circuit_id=circuitId,
-        start_time=time_params.start_time,
-        end_time=time_params.end_time,
-        client_msg_ref=headers["client_msg_ref"],
-        correlation_ref=headers["correlation_ref"]
     )
-    return data

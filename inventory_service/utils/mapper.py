@@ -1,9 +1,14 @@
+from inventory_service.models.dto.circuit import Circuit
+from inventory_service.models.dto.circuit_element import CircuitElement
 from inventory_service.models.dto.copper import Copper
+from inventory_service.schemas.models.circuit import InventoryCircuit
+from inventory_service.schemas.models.circuit_element import InventoryCircuitElement
 from inventory_service.schemas.models.copper_service import InventoryCopperService
 from inventory_service.schemas.models.fttx_service import InventoryFttxService
 from inventory_service.models.dto.fttx import FTTHLinkInfo
 from inventory_service.schemas.models.cross_connection import InventoryCrossConnection
 from inventory_service.models.dto.cross_connection import CrossConnection
+from inventory_service.models.dto.circuit_element import CircuitElementSequence
 
 class Mapper:
     @staticmethod
@@ -163,4 +168,62 @@ class Mapper:
             zSiteShelf=cross_connection.z_site_shelf,
             zSiteSlot=cross_connection.z_site_slot,
             zSitePort=cross_connection.z_site_port
+        )
+    
+    @staticmethod
+    def map_to_circuit(circuit: InventoryCircuit) -> Circuit:
+        """Map InventoryCircuit to Circuit."""
+        return Circuit(
+            name=circuit.name, 
+            revision=circuit.revision,
+            category=circuit.category,
+            status=circuit.status,
+            topology=circuit.topology,
+            bandwidth=circuit.bandwidth,
+            aSite=circuit.a_site,
+            aNEType=circuit.a_ne_type,
+            aNodeName=circuit.a_node_name,
+            aPortBandwith=circuit.a_port_bandwidth,
+            aPortName=circuit.a_port_name,
+            aSlotNumber=circuit.a_slot_number,
+            aShelfNumber=circuit.a_shelf_number,
+            zSite=circuit.z_site,
+            zNodeName=circuit.z_node_name,
+            zNEType=circuit.z_ne_type,
+            zPortBandwith=circuit.z_port_bandwidth,
+            zPortName=circuit.z_port_name,
+            zSlotNumber=circuit.z_slot_number,
+            zShelfNumber=circuit.z_shelf_number
+        )
+    
+    @staticmethod
+    def map_to_circuit_element(circuit_element: InventoryCircuitElement) -> CircuitElement:
+        """Map InventoryCircuitElement to CircuitElement."""
+        sequence = CircuitElementSequence(
+            sequenceId=circuit_element.sequence_id,
+            category=circuit_element.category or "",
+            cardName=circuit_element.card_name or "",
+            cardPort=circuit_element.card_port or "",
+            cardDescription=circuit_element.card_description,
+            portAccess=circuit_element.port_access,
+            aSite=circuit_element.a_site or "",
+            aNodeName=circuit_element.a_node_name,
+            aNEType=circuit_element.a_ne_type,
+            aPortBandwith=circuit_element.a_port_bandwidth,
+            aPortName=circuit_element.a_port_name,
+            aSlotNumber=circuit_element.a_slot_number or "",
+            aShelfNumber=circuit_element.a_shelf_number or "",
+            zSite=circuit_element.z_site or "",
+            zNodeName=circuit_element.z_node_name,
+            zNEType=circuit_element.z_ne_type,
+            zPortBandwith=circuit_element.z_port_bandwidth,
+            zPortName=circuit_element.z_port_name,
+            zSlotNumber=circuit_element.z_slot_number or "",
+            zShelfNumber=circuit_element.z_shelf_number or "",
+            connectivity=circuit_element.connectivity
+        )
+        
+        return CircuitElement(
+            circuitId=circuit_element.circuit_id,
+            sequence=[sequence]
         )

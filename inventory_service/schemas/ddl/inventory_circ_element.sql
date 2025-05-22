@@ -3,8 +3,9 @@ CREATE SCHEMA IF NOT EXISTS inventory_db;
 
 -- Table creation
 CREATE TABLE inventory_db.inventory_circ_element (
-    circuit_id VARCHAR(100),
-    sequence_id VARCHAR(500),
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    circuit_id VARCHAR(100) NOT NULL,
+    sequence_id VARCHAR(500) NOT NULL,
     category VARCHAR(30),
     card_name VARCHAR(30),
     card_port VARCHAR(81),
@@ -26,7 +27,8 @@ CREATE TABLE inventory_db.inventory_circ_element (
     z_shelf_number VARCHAR(12),
     connectivity VARCHAR(30),
     circ_path_inst_id BIGINT,
-    element_inst_id BIGINT
+    element_inst_id BIGINT,
+    CONSTRAINT pk_inventory_circ_element PRIMARY KEY (id, circuit_id, sequence_id)
 );
 
 -- Index creation

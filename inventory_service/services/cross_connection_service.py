@@ -21,15 +21,24 @@ class CrossConnectionService(BaseService[InventoryCrossConnection]):
         self,
         start_datetime: datetime,
         end_datetime: datetime,
-        type: CrossConnectionType = CrossConnectionType.OLT_PE
+        type: CrossConnectionType
     ) -> CrossConnectionListResponse:
         """
-        Get cross connections by last modified timestamp.
+        Get cross connections by last modified timestamp and type.
+        
+        Args:
+            start_datetime: Start of the datetime range (inclusive)
+            end_datetime: End of the datetime range (inclusive)
+            type: Type of cross connection to filter by
+            
+        Returns:
+            List of cross connections that fall within the datetime range and match the type
         """
         cross_connections = await self.get_by_datetime_range_and_type(
             start_datetime=start_datetime,
             end_datetime=end_datetime,
             type=type,
+            timestamp_field="last_mod_ts",
             type_field="type"
         )
         cross_connections = [Mapper.map_to_cross_connection(cross_connection) for cross_connection in cross_connections]

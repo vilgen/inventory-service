@@ -4,27 +4,27 @@ from typing import List, Optional
 
 
 class Circuit(BaseModel):
-    name: str = Field(..., description="Name of the circuit")
-    category: str = Field(..., description="Circuit type/category (e.g. IP, DIA, etc.)")
-    status: str = Field(..., description="Status of the circuit (e.g. LIVE)")
-    topology: str = Field(..., description="Topology type (e.g. Point to Point)")
-    bandwidth: str = Field(..., description="Bandwidth description")
+    name: Optional[str] = Field(None, description="Name of the circuit")
+    category: Optional[str] = Field(None, description="Circuit type/category (e.g. IP, DIA, etc.)")
+    status: Optional[str] = Field(None, description="Status of the circuit (e.g. LIVE)")
+    topology: Optional[str] = Field(None, description="Topology type (e.g. Point to Point)")
+    bandwidth: Optional[str] = Field(None, description="Bandwidth description")
 
-    aSite: str = Field(..., description="A-side site name")
+    aSite: Optional[str] = Field(None, description="A-side site name")
     aNEType: Optional[str] = Field(None, description="A-side NE (Network Element) type")
     aNodeName: Optional[str] = Field(None, description="A-side node name")
-    aPortBandwith: str = Field(..., description="A-side port bandwidth")
-    aPortName: str = Field(..., description="A-side port name")
-    aSlotNumber: str = Field(..., description="A-side slot number")
-    aShelfNumber: str = Field(..., description="A-side shelf number")
+    aPortBandwith: Optional[str] = Field(None, description="A-side port bandwidth")
+    aPortName: Optional[str] = Field(None, description="A-side port name")
+    aSlotNumber: Optional[str] = Field(None, description="A-side slot number")
+    aShelfNumber: Optional[str] = Field(None, description="A-side shelf number")
 
-    zSite: str = Field(..., description="Z-side site name")
+    zSite: Optional[str] = Field(None, description="Z-side site name")
     zNodeName: Optional[str] = Field(None, description="Z-side node name")
     zNEType: Optional[str] = Field(None, description="Z-side NE type")
-    zPortBandwith: str = Field(..., description="Z-side port bandwidth")
-    zPortName: str = Field(..., description="Z-side port name")
-    zSlotNumber: str = Field(..., description="Z-side slot number")
-    zShelfNumber: str = Field(..., description="Z-side shelf number")
+    zPortBandwith: Optional[str] = Field(None, description="Z-side port bandwidth")
+    zPortName: Optional[str] = Field(None, description="Z-side port name")
+    zSlotNumber: Optional[str] = Field(None, description="Z-side slot number")
+    zShelfNumber: Optional[str] = Field(None, description="Z-side shelf number")
 
 
 class CircuitType(str, Enum):
