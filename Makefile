@@ -8,3 +8,13 @@ run:
 
 shell:
 	poetry shell
+
+ruff:
+	poetry run ruff check .
+
+ruff-fix:
+	poetry run ruff check --fix .
+
+rm-poetry-lock:
+	rm poetry.lock
+	poetry lock
