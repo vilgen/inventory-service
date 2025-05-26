@@ -13,6 +13,10 @@ sqlmodel = "^0.0.16"  # SQLModel combines SQLAlchemy and Pydantic
 psycopg2-binary = "^2.9.9"  # PostgreSQL adapter
 python-dotenv = "^1.0.1"
 alembic = "^1.13.1"  # For database migrations
+pydantic-settings = "^2.9.1"
+python-jose = {extras = ["cryptography"], version = "^3.4.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.20"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"

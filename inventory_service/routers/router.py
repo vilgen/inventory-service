@@ -3,6 +3,8 @@ from typing import List, Optional
 from datetime import datetime
 
 # DTOs
+from inventory_service.auth.dependencies import get_current_user_from_cookie, get_current_user_from_cookie_production
+from inventory_service.auth.models import User
 from inventory_service.models.dto.circuit import CircuitType
 from inventory_service.models.dto.cross_connection import CrossConnectionType
 from inventory_service.models.dto.equipment import EquipmentType
@@ -43,6 +45,7 @@ async def get_cross_connection_list(
     ),
     time_params: TimeRangeParams = Depends(),
     headers: dict = Depends(validate_service_id("getCrossConnectionList")),
+    current_user: User = Depends(get_current_user_from_cookie_production),
     cross_connection_service: CrossConnectionService = Depends(),
 ):
     return await cross_connection_service.get_by_last_mod_ts_and_type(
@@ -62,6 +65,7 @@ async def get_equipment_list(
     equipment_type: EquipmentType,
     time_params: TimeRangeParams = Depends(),
     headers: dict = Depends(validate_service_id("getEquipmentList")),
+    current_user: User = Depends(get_current_user_from_cookie_production),
     equipment_service: EquipmentService = Depends()
 ):
     """Get equipment list filtered by type and time range."""
@@ -80,6 +84,7 @@ async def get_equipment_list(
 async def get_fttx_service_list(
     time_params: TimeRangeParams = Depends(),
     headers: dict = Depends(validate_service_id("getFTTXList")),
+    current_user: User = Depends(get_current_user_from_cookie_production),
     fttx_service: FttxService = Depends(),
 ):
     """
@@ -100,6 +105,7 @@ async def get_fttx_service_list(
 async def get_copper_service_list(
     time_params: TimeRangeParams = Depends(),
     headers: dict = Depends(validate_service_id("getCopperList")),
+    current_user: User = Depends(get_current_user_from_cookie_production),
     copper_service: CopperService = Depends(),
 ):
     return await copper_service.get_by_last_mod_ts(
@@ -117,6 +123,7 @@ async def get_circuit_list(
     circuitType: CircuitType = Path(..., description="Type of circuit to retrieve"),
     time_params: TimeRangeParams = Depends(),
     headers: dict = Depends(validate_service_id("getCircuitList")),
+    current_user: User = Depends(get_current_user_from_cookie_production),
     circuit_service: CircuitService = Depends(),
 ):
     return await circuit_service.get_by_last_mod_ts_and_type(
@@ -134,6 +141,7 @@ async def get_circuit_list(
 async def get_circuit_element_list(
     circuitId: str = Query(..., description="Circuit ID to fetch elements for"),
     headers: dict = Depends(validate_service_id("getCircuitElementList")),
+    current_user: User = Depends(get_current_user_from_cookie_production),
     circuit_element_service: CircuitElementService = Depends(),
 ):
     return await circuit_element_service.get_by_circuit_id(

@@ -30,6 +30,7 @@ class DatabaseSettings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = True
+        extra = "ignore"
 
 # Create a global instance
 db_settings = DatabaseSettings()

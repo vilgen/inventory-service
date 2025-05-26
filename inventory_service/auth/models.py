@@ -12,17 +12,8 @@ class UserLogin(BaseModel):
     username: str
     password: str
 
-class UserRegister(BaseModel):
-    username: str
-    password: str
-    email: str
-    full_name: Optional[str] = None
-
 class User(BaseModel):
     username: str
-    email: Optional[str] = None
-    full_name: Optional[str] = None
-    disabled: Optional[bool] = None
-
-class UserInDB(User):
-    hashed_password: str
+    email: str
+    full_name: str
+    is_admin: bool = True
