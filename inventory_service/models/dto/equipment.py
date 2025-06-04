@@ -1,6 +1,10 @@
 from pydantic import BaseModel, Field
 from enum import Enum
 
+from pydantic import BaseModel, Field
+from enum import Enum
+from typing import List
+
 class EquipmentType(str, Enum):
     DWDM = "DWDM"
     OTN = "OTN"
@@ -21,6 +25,9 @@ class EquipmentType(str, Enum):
     DSLAM_AGG = "DSLAM AGG"
     ETHERNET_AGGREGATOR = "ETHERNET AGGREGATOR"
     MSAN = "MSAN"
+    
+    # Aggregation Equipment (Added for Autin category)
+    AGG = "AGG"
 
     # Switching Equipment
     SWITCH = "SWITCH"
@@ -37,6 +44,7 @@ class EquipmentType(str, Enum):
     MW = "MW"
     MW_LINK = "MW LINK"
     MW_NODE = "MW NODE"
+
 
 
 class Port(BaseModel):

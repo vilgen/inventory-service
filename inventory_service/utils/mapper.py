@@ -1,9 +1,12 @@
+from typing import List
 from inventory_service.models.dto.circuit import Circuit
 from inventory_service.models.dto.circuit_element import CircuitElement
 from inventory_service.models.dto.copper import Copper
+from inventory_service.models.dto.equipment import Equipment
 from inventory_service.schemas.models.circuit import InventoryCircuit
 from inventory_service.schemas.models.circuit_element import InventoryCircuitElement
 from inventory_service.schemas.models.copper_service import InventoryCopperService
+from inventory_service.schemas.models.equipment import InventoryEquipment
 from inventory_service.schemas.models.fttx_service import InventoryFttxService
 from inventory_service.models.dto.fttx import FTTHLinkInfo
 from inventory_service.schemas.models.cross_connection import InventoryCrossConnection
@@ -62,6 +65,22 @@ class Mapper:
             circuitPathName=fttx_service.circuit_path_name,
             EBUCircuitID=fttx_service.ebu_circuit_id,
             telephoneNumber=fttx_service.telephone_number
+        )
+    @staticmethod
+    def map_to_equipment(equipment_service: InventoryEquipment) -> Equipment:
+        """Map InventoryEquipment to Equipment."""
+        return Equipment(
+            equipmentName=equipment_service.equipment_name or "",
+            shelfNumber=equipment_service.shelf_number or "",
+            equipmentType=equipment_service.equipment_type or "",
+            equipmentStatus=equipment_service.status or "UNKNOWN",
+            equipmentVendor=equipment_service.equipment_vendor or "",
+            equipmentModel=equipment_service.equipment_model or "",
+            lastModifiedTime=equipment_service.last_modified_time.strftime("%d-%b-%Y") if equipment_service.last_modified_time else "",
+            inBandIP=equipment_service.inband_ip or "",
+            siteNumber=equipment_service.site_number or "",
+            siteCLLI=equipment_service.site_clli or "",
+            slots=[]  # Will be populated separately after grouping
         )
     
     @staticmethod
