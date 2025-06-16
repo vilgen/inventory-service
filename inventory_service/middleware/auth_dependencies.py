@@ -2,8 +2,8 @@ from typing import Optional
 from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import JWTError, jwt
-from .models import TokenData, User
-from .utils import verify_password, get_password_hash
+from inventory_service.models.auth import TokenData, User
+from inventory_service.utils.auth_utils import verify_password, get_password_hash
 from inventory_service.config.auth_settings import auth_settings
 import hmac
 import hashlib
@@ -249,45 +249,22 @@ async def get_current_user_from_cookie_production(request: Request) -> User:
         
         logger.debug(f"Token time validations passed for user: {payload.get('sub')}")
         
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Time validation error from IP: {request.client.host} - {str(e)}")
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token time validation failed",
-        )
-    
-    #Extract and validate user information
-    try:
-        username = payload.get("sub")
-        if not username:
-            logger.warning(f"Token missing subject from IP: {request.client.host}")
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Token missing user identity",
-            )
-        
-        # Validate against expected admin user
+        # Finally, verify the user exists and return
         admin_user = get_admin_user()
-        if username != admin_user.username:
-            logger.warning(f"Invalid user '{username}' from IP: {request.client.host}")
+        if payload.get('sub') != admin_user.username:
+            logger.warning(f"Invalid user in token from IP: {request.client.host}")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid user identity",
+                detail="Invalid user in token",
             )
         
-        # Log successful authentication
-        logger.info(f"Successful authentication for user: {username} from IP: {request.client.host}")
-        print("Succes")
         return admin_user
         
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"User validation error from IP: {request.client.host} - {str(e)}")
+        logger.error(f"Token validation error from IP: {request.client.host} - {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User validation failed",
-        )
-
+            detail="Token validation failed",
+        ) 

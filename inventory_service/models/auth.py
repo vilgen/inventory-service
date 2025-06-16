@@ -16,4 +16,4 @@ class User(BaseModel):
     username: str
     email: str
     full_name: str
-    is_admin: bool = True
+    is_admin: bool = True 

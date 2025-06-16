@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from inventory_service.config.database import create_db_and_tables, init_db
 from inventory_service.middleware.custom_response_header import AddCustomHeaderMiddleware
 from inventory_service.routers.router import router
-from inventory_service.auth import router as auth_router
+from inventory_service.routers.auth_router import auth_router
 
 
 app = FastAPI(

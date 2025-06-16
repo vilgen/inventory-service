@@ -3,8 +3,8 @@ from typing import List, Optional
 from datetime import datetime
 
 # DTOs
-from inventory_service.auth.dependencies import get_current_user_from_cookie, get_current_user_from_cookie_production
-from inventory_service.auth.models import User
+from inventory_service.middleware.auth_dependencies import get_current_user_from_cookie, get_current_user_from_cookie_production
+from inventory_service.models.auth import User
 from inventory_service.models.dto.circuit import CircuitType
 from inventory_service.models.dto.cross_connection import CrossConnectionType
 from inventory_service.models.dto.equipment import EquipmentType

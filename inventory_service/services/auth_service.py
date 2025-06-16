@@ -1,10 +1,9 @@
 from datetime import timedelta
-from fastapi import HTTPException, status
-from .models import User
-from .utils import create_access_token
-from .dependencies import authenticate_user
+from fastapi import HTTPException, status, Response
+from inventory_service.models.auth import User
+from inventory_service.utils.auth_utils import create_access_token
+from inventory_service.middleware.auth_dependencies import authenticate_user
 from inventory_service.config.auth_settings import auth_settings
-from fastapi import Response  
 
 class AuthService:
     @staticmethod
@@ -61,4 +60,4 @@ class AuthService:
             "message": "Login successful",
             "username": user.username,
             "expires_in_minutes": auth_settings.ACCESS_TOKEN_EXPIRE_MINUTES
-        }
+        } 
