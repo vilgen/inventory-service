@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime  # ✅ FIXED! Import the class, not the module
 from typing import Dict, List
 from sqlmodel import Session, select
 from fastapi import Depends
@@ -35,8 +35,8 @@ class EquipmentService(BaseService[InventoryEquipment]):
     async def get_equipment_by_type(
         self,
         equipment_type: EquipmentType,
-        start_time: datetime,
-        end_time: datetime
+        start_time: datetime,  
+        end_time: datetime     
     ) -> EquipmentListResponse:
         """
         Get equipment by type and last modification timestamp range.
@@ -75,6 +75,7 @@ class EquipmentService(BaseService[InventoryEquipment]):
         for equipment_name, records in equipment_dict.items():
             # Use the first record for equipment-level info (like FTTX pattern)
             primary_record = records[0]
+            
             equipment = Mapper.map_to_equipment(primary_record)
             
             # Now build the slots from all records for this equipment
@@ -145,4 +146,3 @@ class EquipmentService(BaseService[InventoryEquipment]):
             slots.append(slot)
         
         return slots
-

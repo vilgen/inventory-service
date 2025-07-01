@@ -10,7 +10,6 @@ from inventory_service.models.dto.cross_connection import CrossConnectionType
 from inventory_service.models.dto.equipment import EquipmentType
 
 # Response Models
-
 from inventory_service.models.response.circuit_element_response import CircuitElementListResponse
 from inventory_service.models.response.circuit_response import CircuitListResponse
 from inventory_service.models.response.copper_response import CopperListResponse
@@ -24,8 +23,8 @@ from inventory_service.services import (
     FttxService, CircuitElementService, CircuitService, 
     EquipmentService)
 
-# Utils
-from inventory_service.utils.validation import TimeRangeParams, validate_service_id
+# Utils - Import the NEW dependency function
+from inventory_service.utils.validation import TimeRangeParams, validate_service_id, get_time_range_params
 
 router = APIRouter(
     prefix="/api/v1/granite",
@@ -43,7 +42,7 @@ async def get_cross_connection_list(
         ...,
         description="Type of cross connection to retrieve"
     ),
-    time_params: TimeRangeParams = Depends(),
+    time_params: TimeRangeParams = Depends(get_time_range_params),  # ✅ FIXED!
     headers: dict = Depends(validate_service_id("getCrossConnectionList")),
     current_user: User = Depends(get_current_user_from_cookie_production),
     cross_connection_service: CrossConnectionService = Depends(),
@@ -54,7 +53,6 @@ async def get_cross_connection_list(
         type=cross_connection_type
     )
 
-
 @router.get(
     "/equipment/{equipment_type}",
     response_model=EquipmentListResponse,
@@ -63,7 +61,7 @@ async def get_cross_connection_list(
 )
 async def get_equipment_list(
     equipment_type: EquipmentType,
-    time_params: TimeRangeParams = Depends(),
+    time_params: TimeRangeParams = Depends(get_time_range_params),  # ✅ FIXED!
     headers: dict = Depends(validate_service_id("getEquipmentList")),
     current_user: User = Depends(get_current_user_from_cookie_production),
     equipment_service: EquipmentService = Depends()
@@ -71,7 +69,7 @@ async def get_equipment_list(
     """Get equipment list filtered by type and time range."""
     return await equipment_service.get_equipment_by_type(
         equipment_type=equipment_type,
-        start_time=time_params.start_time,
+        start_time=time_params.start_time,  # ✅ FIXED! - Using correct parameter name
         end_time=time_params.end_time
     )
 
@@ -82,7 +80,7 @@ async def get_equipment_list(
     description="Retrieves FTTX service information within the specified time range."
 )
 async def get_fttx_service_list(
-    time_params: TimeRangeParams = Depends(),
+    time_params: TimeRangeParams = Depends(get_time_range_params),  # ✅ FIXED!
     headers: dict = Depends(validate_service_id("getFTTXList")),
     current_user: User = Depends(get_current_user_from_cookie_production),
     fttx_service: FttxService = Depends(),
@@ -94,7 +92,6 @@ async def get_fttx_service_list(
         start_datetime=time_params.start_time,
         end_datetime=time_params.end_time,
     )
-    
 
 @router.get(
     "/copperService",
@@ -103,7 +100,7 @@ async def get_fttx_service_list(
     description="Retrieves a list of copper services."
 )
 async def get_copper_service_list(
-    time_params: TimeRangeParams = Depends(),
+    time_params: TimeRangeParams = Depends(get_time_range_params),  # ✅ FIXED!
     headers: dict = Depends(validate_service_id("getCopperList")),
     current_user: User = Depends(get_current_user_from_cookie_production),
     copper_service: CopperService = Depends(),
@@ -121,7 +118,7 @@ async def get_copper_service_list(
 )
 async def get_circuit_list(
     circuitType: CircuitType = Path(..., description="Type of circuit to retrieve"),
-    time_params: TimeRangeParams = Depends(),
+    time_params: TimeRangeParams = Depends(get_time_range_params),  # ✅ FIXED!
     headers: dict = Depends(validate_service_id("getCircuitList")),
     current_user: User = Depends(get_current_user_from_cookie_production),
     circuit_service: CircuitService = Depends(),

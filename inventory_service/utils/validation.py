@@ -1,13 +1,12 @@
 from datetime import datetime, timedelta
 from typing import Literal, Dict, Optional, Callable
 from uuid import UUID
-
-from fastapi import Depends, Header, HTTPException, status, Request
-from pydantic import BaseModel, validator
+from fastapi import Depends, Header, HTTPException, status, Request, Query
+from pydantic import BaseModel, field_validator, model_validator, ValidationError
 
 async def validate_common_headers(
     client_msg_ref: UUID = Header(..., alias="X-STC-ESB-ClientMsgRef"),
-    correlation_ref: UUID = Header(..., alias="X-STC-ESB-CorrelationRef"), 
+    correlation_ref: UUID = Header(..., alias="X-STC-ESB-CorrelationRef"),
     timestamp: datetime = Header(..., alias="X-STC-ESB-Timestamp"),
     system_id: Literal["HIM"] = Header(..., alias="X-STC-ESB-SystemId"),
 ) -> dict:
@@ -39,7 +38,6 @@ def validate_service_id(service_id: str) -> Callable:
             "system_id": system_id,
             "service_id": service_id_header
         }
-        
         return {
             "client_msg_ref": client_msg_ref,
             "correlation_ref": correlation_ref,
@@ -47,23 +45,63 @@ def validate_service_id(service_id: str) -> Callable:
             "system_id": system_id,
             "service_id": service_id_header
         }
-    
     return validate
 
 class TimeRangeParams(BaseModel):
     start_time: datetime
     end_time: datetime
     
-    @validator('end_time')
-    def validate_time_range(cls, end_time, values):
-        start_time = values.get('start_time')
-        if start_time is None:
-            return end_time
-        if end_time - start_time > timedelta(days=2):
-            raise ValueError("Time range must be less than 2 days")
-        if start_time > end_time:
+    @model_validator(mode='after')
+    def validate_time_range(self):
+        # Check if start time is before end time
+        if self.start_time > self.end_time:
             raise ValueError("Start time must be before end time")
-        return end_time
+        
+        # Check if time range is more than 2 days
+        time_diff = self.end_time - self.start_time
+        if time_diff > timedelta(days=2):
+            raise ValueError(
+                f"Time range must be less than 2 days. "
+                f"Current range: {time_diff.days} days, {time_diff.seconds//3600} hours"
+            )
+        
+        return self
 
-
-
+# Create a dependency function that handles the validation and converts errors to HTTP 400
+def get_time_range_params(
+    start_time: datetime = Query(..., description="Start time for the query range"),
+    end_time: datetime = Query(..., description="End time for the query range")
+) -> TimeRangeParams:
+    """
+    Dependency function to validate time range parameters.
+    This will convert Pydantic ValidationError to HTTP 400 instead of 500.
+    """
+    try:
+        return TimeRangeParams(start_time=start_time, end_time=end_time)
+    except ValidationError as e:
+        # Extract the error message from Pydantic ValidationError
+        error_details = []
+        for error in e.errors():
+            if error['type'] == 'value_error':
+                error_details.append(error['msg'])
+            else:
+                error_details.append(f"{error['loc'][-1]}: {error['msg']}")
+        
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "error": "Invalid time range",
+                "message": "; ".join(error_details),
+                "code": "TIME_RANGE_VALIDATION_ERROR"
+            }
+        )
+    except Exception as e:
+        # Catch any other unexpected errors
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "error": "Invalid time range",
+                "message": str(e),
+                "code": "TIME_RANGE_VALIDATION_ERROR"
+            }
+        )
