@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from inventory_service.config.database import test_connection, check_database_health
+from inventory_service.config.database import test_connection, check_database_health, create_db_and_tables, init_db
 from inventory_service.middleware.custom_response_header import AddCustomHeaderMiddleware
 from inventory_service.routers.router import router
 from inventory_service.routers.auth_router import auth_router
@@ -40,6 +40,9 @@ async def on_startup():
         try:
             health = check_database_health()
             print(f"📊 Database: {health['database']} | User: {health['user']}")
+            if health:
+                create_db_and_tables()
+                init_db()
         except Exception as e:
             print(f"⚠️ Health check warning: {e}")
     else:
