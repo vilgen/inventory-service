@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   inventory_service:
     build:
@@ -15,7 +14,17 @@ services:
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_FULL_NAME=${ADMIN_FULL_NAME}
-
+      # Database connection environment variables
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_ECHO=${DB_ECHO}
+      - DB_POOL_SIZE=${DB_POOL_SIZE}
+      - DB_MAX_OVERFLOW=${DB_MAX_OVERFLOW}
+      - DB_POOL_TIMEOUT=${DB_POOL_TIMEOUT}
+      - DB_POOL_RECYCLE=${DB_POOL_RECYCLE}
     depends_on:
       - postgres
 
@@ -23,9 +32,9 @@ services:
     image: postgres:15
     container_name: inventory_postgres
     environment:
-      POSTGRES_DB: inventory
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5434:5432"

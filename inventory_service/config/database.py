@@ -19,18 +19,18 @@ class DatabaseSettings(BaseSettings):
     """Database configuration settings."""
     
     # PostgreSQL settings
-    DB_HOST: str = "localhost"
-    DB_PORT: int = 5434
-    DB_NAME: str = "inventory"
-    DB_USER: str = "admin"
-    DB_PASSWORD: str = "admin123"
-    DB_ECHO: bool = True
+    DB_HOST: str
+    DB_PORT: int
+    DB_NAME: str
+    DB_USER: str
+    DB_PASSWORD: str
+    DB_ECHO: bool
     
     # Connection pool settings
-    DB_POOL_SIZE: int = 10
-    DB_MAX_OVERFLOW: int = 20
-    DB_POOL_TIMEOUT: int = 30
-    DB_POOL_RECYCLE: int = 3600  # 1 hour
+    DB_POOL_SIZE: int
+    DB_MAX_OVERFLOW: int
+    DB_POOL_TIMEOUT: int
+    DB_POOL_RECYCLE: int # 1 hour
 
     @property
     def DATABASE_URL(self) -> str:
